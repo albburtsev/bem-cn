@@ -1,0 +1,32 @@
+{
+  "name": "bem-flash",
+  "version": "0.0.0",
+  "description": "User friendly generator of BEM class names",
+  "main": "dest/index.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/albburtsev/bem-flash.git"
+  },
+  "keywords": [
+    "BEM",
+    "React",
+    "class",
+    "classname",
+    "block",
+    "element",
+    "modifier"
+  ],
+  "author": "Alexander Burtsev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/albburtsev/bem-flash/issues"
+  },
+  "homepage": "https://github.com/albburtsev/bem-flash",
+  "devDependencies": {
+    "mocha": "^2.2.1",
+    "should": "^5.2.0"
+  }
+}
