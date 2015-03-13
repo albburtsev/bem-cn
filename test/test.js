@@ -21,7 +21,7 @@ describe('Block instance', function() {
 	it('should have all necessary methods', function() {
 		var b = Block('button');
 		should(b.toString).be.an.instanceOf(Function);
-		should(b.concat).be.an.instanceOf(Function);
+		should(b.mix).be.an.instanceOf(Function);
 	});
 });
 
@@ -59,5 +59,23 @@ describe('Callable block instance', function() {
 		should(
 			b('child', { color: 'dark', value: 'none' }).toString()
 		).equal('parent__child parent__child_color_dark parent__child_value_none');
+	});
+
+	it('should create modifier without value', function() {
+		should(
+			b({ value: true }).toString()
+		).equal('parent_value');
+		should(
+			b({ value: false }).toString()
+		).equal('parent');
+	});
+
+	it('should append mixed class', function() {
+		should(
+			b.mix('outer')
+		).equal('parent outer');
+		should(
+			b('child').mix('outer')
+		).equal('parent__child outer');
 	});
 });
