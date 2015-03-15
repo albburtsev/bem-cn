@@ -68,8 +68,6 @@
 			mixes: []
 		}, props || {});
 
-		console.log('context', context);
-
 		var b = function() {
 			var args = Array.prototype.slice.call(arguments),
 				props = extend({}, this);
@@ -119,7 +117,10 @@
 
 		b.mix = function(className) {
 			var props = extend({}, this);
-			props.mixes.push(className);
+
+			if ( className ) {
+				props.mixes.push(className);
+			}
 
 			return createBlock(props);
 		}.bind(context);

@@ -76,5 +76,8 @@ describe('Callable block instance', function() {
 		should(
 			b('child').mix('outer').toString()
 		).equal('parent__child outer');
+		should(
+			b('icon', { name: 'close' }).mix('another').toString()
+		).equal('parent__icon parent__icon_name_close another');
 	});
 });
