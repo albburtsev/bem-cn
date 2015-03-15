@@ -64,7 +64,7 @@ describe('Callable block instance', function() {
 	it('should create modifier without value', function() {
 		should(
 			b({ value: true }).toString()
-		).equal('parent_value');
+		).equal('parent parent_value');
 		should(
 			b({ value: false }).toString()
 		).equal('parent');
@@ -72,10 +72,10 @@ describe('Callable block instance', function() {
 
 	it('should append mixed class', function() {
 		should(
-			b.mix('outer')
+			b.mix('outer').toString()
 		).equal('parent outer');
 		should(
-			b('child').mix('outer')
+			b('child').mix('outer').toString()
 		).equal('parent__child outer');
 	});
 });
