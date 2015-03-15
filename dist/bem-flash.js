@@ -1,3 +1,8 @@
+/**
+ * bem-flash — friendly generator of BEM class names
+ * @author Alexander Burtsev, http://burtsev.me, 2015
+ * @license MIT
+ */
 (function (root, factory) {
 	if ( typeof exports === 'object' ) {
 		// CommonJS
