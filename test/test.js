@@ -1,9 +1,7 @@
 'use strict';
 
-var should = require('should');
-
-// var Block = require('../dest/bem-flash');
-var Block = function() {};
+var should = require('should'),
+	Block = require('../dist/bem-flash');
 
 describe('Wrapper function Block', function() {
 	it('should be a function', function(){
@@ -14,7 +12,8 @@ describe('Wrapper function Block', function() {
 describe('Block instance', function() {
 	it('should return given block name', function() {
 		var b = Block('button');
-		should(b()).equal('button');
+		should(b).be.an.instanceOf(Function);
+		should(b().toString()).equal('button');
 		should(b.toString()).equal('button');
 	});
 
