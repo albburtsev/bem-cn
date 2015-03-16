@@ -7,7 +7,7 @@ module.exports = (grunt) ->
 		jsSource: 'src/*.js'
 		jsDist: 'dist/'
 		banner: '/**\n
- * bem-cn — friendly generator of BEM class names\n
+ * bem-cn — friendly BEM class names generator\n
  * @author Alexander Burtsev, http://burtsev.me, <%= grunt.template.today("yyyy") %>\n
  * @license MIT\n
  */\n',

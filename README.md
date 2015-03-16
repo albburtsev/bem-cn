@@ -1,6 +1,6 @@
 # bem-cn
 
-Friendly generator of [BEM](https://en.bem.info/) class names. Inspired by [b_](https://github.com/azproduction/b_).
+Friendly [BEM](https://en.bem.info/) class names generator. Inspired by [b_](https://github.com/azproduction/b_).
 
 ## Why?
 
@@ -10,7 +10,6 @@ I spent a lot of time finding [BEM](https://en.bem.info/) class name generator, 
 
  * Simple usage with [React](http://facebook.github.io/react/)
  * Support modifiers without value
- * Support nested elements
  * Simple mix other classes
 
 But now (March 2015) I can't find it. That's why.
@@ -36,7 +35,6 @@ b(); // 'button'
 
 // Element
 b('icon'); // 'button__icon'
-b('icon', 'text'); // 'button__icon__text'
 
 // Modifier
 b({ type: 'text' });  // 'button button_type_text'
@@ -51,7 +49,8 @@ b('icon', { name: 'close' }).mix('another'); // 'button__icon button__icon_name_
 Usage with JSX:
 
 ```jsx
-var b = Block('popup');
+var Block = require('bem-cn'),
+    b = Block('popup');
 
 var Popup = React.createClass({
     render: function() {

@@ -1,5 +1,5 @@
 /**
- * bem-cn — friendly generator of BEM class names
+ * bem-cn — friendly BEM class names generator
  * @author Alexander Burtsev, http://burtsev.me, 2015
  * @license MIT
  */
