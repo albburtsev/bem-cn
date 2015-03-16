@@ -81,3 +81,22 @@ describe('Callable block instance', function() {
 		).equal('parent__icon parent__icon_name_close another');
 	});
 });
+
+describe('Unexpected arguments', function() {
+	var b = Block('block');
+
+	it('should be silent when passed unexpected value', function() {
+		should(
+			b(null).toString()
+		).equal('block');
+		should(
+			b.mix(null).toString()
+		).equal('block');
+		should(
+			b(null).mix(null).toString()
+		).equal('block');
+		should(
+			b()()()().toString()
+		).equal('block');
+	});
+});

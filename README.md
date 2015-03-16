@@ -1,6 +1,8 @@
 # bem-cn
 
-Friendly [BEM](https://en.bem.info/) class names generator. Inspired by [b_](https://github.com/azproduction/b_).
+Friendly [BEM](https://en.bem.info/) class names generator. Great for [React](http://facebook.github.io/react/).
+
+Inspired by [b_](https://github.com/azproduction/b_).
 
 ## Why?
 
@@ -8,7 +10,7 @@ Why I created yet another node module?
 
 I spent a lot of time finding [BEM](https://en.bem.info/) class name generator, that meets my needs:
 
- * Simple usage with [React](http://facebook.github.io/react/)
+ * Simple usage with React
  * Support modifiers without value
  * Simple mix other classes
 
