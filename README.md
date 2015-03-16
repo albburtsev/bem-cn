@@ -20,8 +20,14 @@ But now (March 2015) I can't find it. That's why.
 
 With Node.js:
 
-```
+```bash
 npm i --save bem-cn
+```
+
+Or use [Bower](http://bower.io/) for install:
+
+```bash
+bower install --save bem-cn
 ```
 
 ## Usage
