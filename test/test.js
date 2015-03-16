@@ -1,7 +1,7 @@
 'use strict';
 
 var should = require('should'),
-	Block = require('../dist/bem-flash');
+	Block = require('../dist/bem-cn');
 
 describe('Wrapper function Block', function() {
 	it('should be a function', function(){

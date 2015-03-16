@@ -1,4 +1,4 @@
-# bem-flash
+# bem-cn
 
 Friendly generator of [BEM](https://en.bem.info/) class names. Inspired by [b_](https://github.com/azproduction/b_).
 

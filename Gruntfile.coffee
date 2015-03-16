@@ -7,13 +7,13 @@ module.exports = (grunt) ->
 		jsSource: 'src/*.js'
 		jsDist: 'dist/'
 		banner: '/**\n
- * bem-flash — friendly generator of BEM class names\n
+ * bem-cn — friendly generator of BEM class names\n
  * @author Alexander Burtsev, http://burtsev.me, <%= grunt.template.today("yyyy") %>\n
  * @license MIT\n
  */\n',
 
 		jshint:
-			bemflash: ['<%= jsSource %>']
+			bemcn: ['<%= jsSource %>']
 
 		copy:
 			options:
@@ -31,9 +31,9 @@ module.exports = (grunt) ->
 			options:
 				banner: '<%= banner %>'
 				sourceMap: true
-			bemflash:
+			bemcn:
 				files:
-					'<%= jsDist %>bem-flash.min.js': ['<%= jsSource %>']
+					'<%= jsDist %>bem-cn.min.js': ['<%= jsSource %>']
 
 		notify:
 			build_ready:
@@ -41,7 +41,7 @@ module.exports = (grunt) ->
 					message: 'Build is ready!'
 
 		watch:
-			bemflash:
+			bemcn:
 				files: ['<%= jsSource %>']
 				tasks: ['jshint', 'copy', 'uglify', 'notify']
 

@@ -1,5 +1,5 @@
 {
-  "name": "bem-flash",
+  "name": "bem-cn",
   "version": "0.0.0",
   "description": "User friendly generator of BEM class names",
   "main": "dest/index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/albburtsev/bem-flash.git"
+    "url": "https://github.com/albburtsev/bem-cn.git"
   },
   "keywords": [
     "BEM",
@@ -22,9 +22,9 @@
   "author": "Alexander Burtsev",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/albburtsev/bem-flash/issues"
+    "url": "https://github.com/albburtsev/bem-cn/issues"
   },
-  "homepage": "https://github.com/albburtsev/bem-flash",
+  "homepage": "https://github.com/albburtsev/bem-cn",
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-contrib-copy": "^0.8.0",
