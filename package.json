@@ -1,8 +1,8 @@
 {
   "name": "bem-cn",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "User friendly generator of BEM class names",
-  "main": "dest/index.js",
+  "main": "dist/bem-cn.js",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha"
   },

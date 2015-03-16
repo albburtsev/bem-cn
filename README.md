@@ -17,7 +17,11 @@ But now (March 2015) I can't find it. That's why.
 
 ## Install
 
-TODO
+With Node.js:
+
+```
+npm i --save bem-cn
+```
 
 ## Usage
 
@@ -26,25 +30,48 @@ Let's try:
 ```js
 var b = Block('button');
 
+// Block
 b; // 'button'
 b(); // 'button'
+
+// Element
 b('icon'); // 'button__icon'
-b({ type: 'text' });  // 'button_type_text'
+b('icon', 'text'); // 'button__icon__text'
+
+// Modifier
+b({ type: 'text' });  // 'button button_type_text'
+b({ type: 'text' }, { type: 'colored' }); // 'button button_type_text button_type_colored'
+b({ onlykey: true });  // 'button button_onlykey'
+b({ without: false });  // 'button'
+
+// Mix
 b('icon', { name: 'close' }).mix('another'); // 'button__icon button__icon_name_close another'
 ```
 
 Usage with JSX:
 
-```js
-var b = Block('icon');
+```jsx
+var b = Block('popup');
 
-var Icon = React.createClass({
+var Popup = React.createClass({
     render: function() {
         return (
-            <span className={b({ name: this.props.name }).mix(this.props.mix)}></span>
+            <div className={b.mix(this.props.mix)}>
+            	<span className={b('icon')} />
+            	<div class="b('content', { skin: this.props.skin })">
+            		{this.props.children}
+            	</div>
+            </div>
         );
     }
 });
 
-React.render(<Icon name="close" mix="outer__element">); // '<span class="icon icon_close outer__element">'
+React.render(<Popup mix="another" skin="bright" />, target);
+/*
+<div class="popup another">
+	<span class="popup__icon"></span>
+	<div class="popup__content popup__content_skin_bright">
+	</div>
+</div>
+ */
 ```
