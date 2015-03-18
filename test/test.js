@@ -100,3 +100,31 @@ describe('Unexpected arguments', function() {
 		).equal('block');
 	});
 });
+
+describe('Setup custom separators', function() {
+	it('should be method setup()', function() {
+		should(Block.setup).be.an.instanceOf(Function);
+	});
+
+	it('should be custom separators', function() {
+		Block.setup({
+			el: '~~',
+			mod: '-'
+		});
+
+		var b = Block('block');
+
+		should(
+			b('element').toString()
+		).equal('block~~element');
+		should(
+			b({ mod: 'value' }).toString()
+		).equal('block block-mod-value');
+		should(
+			b({ mod: true }).toString()
+		).equal('block block-mod');
+		should(
+			b('element', { mod: 'value' }).toString()
+		).equal('block~~element block~~element-mod-value');
+	});
+});
