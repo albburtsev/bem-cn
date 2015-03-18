@@ -65,7 +65,7 @@ var Popup = React.createClass({
         return (
             <div className={b.mix(this.props.mix)}>
             	<span className={b('icon')} />
-            	<div class="b('content', { skin: this.props.skin })">
+            	<div class={b('content', { skin: this.props.skin })}>
             		{this.props.children}
             	</div>
             </div>
