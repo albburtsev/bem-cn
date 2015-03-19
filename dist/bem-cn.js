@@ -19,9 +19,11 @@
 
 	/* jshint validthis: true */
 
-	var ELEMENT_DELIMITER = '__',
-		MODIFIER_DELIMITER = '_',
-		WHITESPACE = ' ';
+	var space = ' ',
+		separators = {
+			el: '__',
+			mod: '_'
+		};
 
 	/**
 	 * Simplest mixin helper
@@ -41,6 +43,13 @@
 	}
 
 	/**
+	 * Shallow copy helper
+	 */
+	function copy(obj) {
+		return extend({}, obj);
+	}
+
+	/**
 	 * Converts object with modifiers to array of strings
 	 * Example: modObjectToArray({ color: 'red' }) -> ['', '_color_red']
 	 */
@@ -53,9 +62,9 @@
 			}
 
 			if ( value === true ) {
-				array.push(MODIFIER_DELIMITER + key);
+				array.push(separators.mod + key);
 			} else {
-				array.push(MODIFIER_DELIMITER + key + MODIFIER_DELIMITER + value);
+				array.push(separators.mod + key + separators.mod + value);
 			}
 
 			return array;
@@ -67,21 +76,21 @@
 	 */
 	function callableInstance() {
 		var args = Array.prototype.slice.call(arguments),
-			props = extend({}, this);
+			context = copy(this);
 
-		props = args.reduce(function(props, argv) {
+		context = args.reduce(function(context, argv) {
 			if ( argv && typeof argv === 'string' ) {
-				props.name = props.name + ELEMENT_DELIMITER + argv;
+				context.name = context.name + separators.el + argv;
 			}
 
 			if ( argv && typeof argv === 'object' ) {
-				props.mods.push(argv);
+				context.mods.push(argv);
 			}
 
-			return props;
-		}, props);
+			return context;
+		}, context);
 
-		return createBlock(props);
+		return factory(context);
 	}
 
 	/**
@@ -97,7 +106,7 @@
 
 			if ( modArray.length ) {
 				modArray.unshift('');
-				classList += modArray.join(WHITESPACE + name);
+				classList += modArray.join(space + name);
 			}
 
 			return classList;
@@ -105,7 +114,7 @@
 
 		// Mix with another classes
 		if ( this.mixes.length ) {
-			classList += WHITESPACE + this.mixes.join(WHITESPACE);
+			classList += space + this.mixes.join(space);
 		}
 
 		return classList;
@@ -115,42 +124,42 @@
 	 * Static method mix() for callable instance
 	 */
 	function mix(className) {
-		var props = extend({}, this);
+		var context = copy(this);
 
 		if ( className ) {
-			props.mixes.push(className);
+			context.mixes.push(className);
 		}
 
-		return createBlock(props);
+		return factory(context);
 	}
 
 	/**
 	 * Generator of block-functions
-	 * @param {Object} props Properties of current block
+	 * @param {Object} context Immutable context of current block
 	 * @return {Function}
 	 */
-	function createBlock(props) {
-		props = extend({
+	function factory(context) {
+		context = extend({
 			name: '',
 			mods: [],
 			mixes: []
-		}, props || {});
+		}, context || {});
 
 		// Whilst JavaScript can't create callable objects with constructors
-		var b = callableInstance.bind(props);
-		b.toString = toString.bind(props);
-		b.mix = mix.bind(props);
+		var b = callableInstance.bind(context);
+		b.toString = toString.bind(context);
+		b.mix = mix.bind(context);
 
 		return b;
 	}
 
 	/**
-	 * Wrapper function
+	 * Entry point
 	 * @param {String} name Block name
 	 * @return {Function}
 	 */
 	function Block(name) {
-		return createBlock({ name: name });
+		return factory({ name: name });
 	}
 
 	return Block;
