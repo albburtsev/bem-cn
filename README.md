@@ -33,7 +33,11 @@ Or use [Bower](http://bower.io/) for install:
 bower install --save bem-cn
 ```
 
-Works with [webpack](http://webpack.github.io/) and [browserify](http://browserify.org/).
+Works with [webpack](http://webpack.github.io/) and [browserify](http://browserify.org/):
+
+```js
+var Block = require('bem-cn');
+```
 
 ## Usage
 
