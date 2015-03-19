@@ -2,6 +2,8 @@
 
 Friendly [BEM](https://en.bem.info/) class names generator. Great for [React](http://facebook.github.io/react/).
 
+**Bem-cn** (aka BEM Class Name) is extra small (minified+gzipped less than 1Kb) and extremely simple client-side library and Node.js module.
+
 Inspired by [b_](https://github.com/azproduction/b_).
 
 ## Why?
@@ -12,7 +14,8 @@ I spent a lot of time finding [BEM](https://en.bem.info/) class name generator, 
 
  * Simple usage with React
  * Support modifiers without value
- * Simple mix other classes
+ * Mix multiple blocks
+ * Friendly chainable API
 
 But now (March 2015) I can't find it. That's why.
 
@@ -29,6 +32,8 @@ Or use [Bower](http://bower.io/) for install:
 ```bash
 bower install --save bem-cn
 ```
+
+Works with [webpack](http://webpack.github.io/) and [browserify](http://browserify.org/).
 
 ## Usage
 
@@ -52,6 +57,17 @@ b({ without: false });  // 'button'
 
 // Mix
 b('icon', { name: 'close' }).mix('another'); // 'button__icon button__icon_name_close another'
+
+// Custom separators
+Block.setup({
+    el: '~~',
+    mod: '-'
+});
+
+var b = Block('block');
+
+b('element'); // 'block~~element'
+b({ mod: 'value' }); // 'block block-mod-value'
 ```
 
 Usage with JSX:

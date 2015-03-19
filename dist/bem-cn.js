@@ -162,5 +162,13 @@
 		return factory({ name: name });
 	}
 
+	/**
+	 * Setup separators
+	 */
+	Block.setup = function(obj) {
+		extend(separators, obj || {});
+		return Block;
+	};
+
 	return Block;
 });
