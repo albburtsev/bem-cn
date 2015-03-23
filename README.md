@@ -62,6 +62,12 @@ b({ without: false });  // 'button'
 // Mix
 b('icon', { name: 'close' }).mix('another'); // 'button__icon button__icon_name_close another'
 
+// States
+// As SMACSS states: https://smacss.com/book/type-state
+b.state({ hidden: true }); // 'button is-hidden'
+b.state({ hidden: false }); // 'button'
+b.state({ hidden: true, error: true }); // 'button is-hidden is-error'
+
 // Custom separators
 Block.setup({
     el: '~~',

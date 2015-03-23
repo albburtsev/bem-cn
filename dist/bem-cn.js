@@ -19,7 +19,8 @@
 
 	/* jshint validthis: true */
 
-	var space = ' ',
+	var is = 'is-',
+		space = ' ',
 		separators = {
 			el: '__',
 			mod: '_'
@@ -117,6 +118,12 @@
 			classList += space + this.mixes.join(space);
 		}
 
+		// Add states
+		var states = this.states;
+		classList = Object.keys(states).reduce(function(classList, state) {
+			return classList += states[state] ? space + is + state : '';
+		}, classList);
+
 		return classList;
 	}
 
@@ -134,6 +141,21 @@
 	}
 
 	/**
+	 * Adds SMACSS-states: https://smacss.com/book/type-state
+	 * @param {Object} obj State object
+	 * @return {[type]} [description]
+	 */
+	function state(obj) {
+		var context = copy(this),
+			states = copy(context.states);
+
+		extend(states, obj || {});
+		context.states = states;
+
+		return factory(context);
+	}
+
+	/**
 	 * Generator of block-functions
 	 * @param {Object} context Immutable context of current block
 	 * @return {Function}
@@ -142,13 +164,15 @@
 		context = extend({
 			name: '',
 			mods: [],
-			mixes: []
+			mixes: [],
+			states: {}
 		}, context || {});
 
 		// Whilst JavaScript can't create callable objects with constructors
 		var b = callableInstance.bind(context);
 		b.toString = toString.bind(context);
 		b.mix = mix.bind(context);
+		b.state = state.bind(context);
 
 		return b;
 	}
