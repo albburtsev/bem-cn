@@ -17,11 +17,20 @@ describe('Block instance', function() {
 		should(b.toString()).equal('button');
 	});
 
+	it('should return splitted block name', function() {
+		var b = Block('button');
+		b = b({ mod: true });
+		should(b.split(' ')).be.an.instanceOf(Array);
+		should(b().split(' ')).eql(['button', 'button_mod']);
+		should(b.split(' ')).eql(['button', 'button_mod']);
+	});
+
 	it('should have all necessary methods', function() {
 		var b = Block('button');
 		should(b.toString).be.an.instanceOf(Function);
 		should(b.mix).be.an.instanceOf(Function);
 		should(b.state).be.an.instanceOf(Function);
+		should(b.split).be.an.instanceOf(Function);
 	});
 });
 
