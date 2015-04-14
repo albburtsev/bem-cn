@@ -123,10 +123,8 @@
 	}
 
 	function split() {
-		var args = Array.prototype.slice.call(arguments),
-			classNames = toString.bind(this)();
-
-		return classNames.split(args);
+		var classNames = toString.bind(this)();
+		return String.prototype.split.apply(classNames, arguments);
 	}
 
 	/**
