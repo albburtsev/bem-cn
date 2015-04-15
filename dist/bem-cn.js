@@ -127,6 +127,11 @@
 		return classList;
 	}
 
+	function split() {
+		var classNames = toString.bind(this)();
+		return String.prototype.split.apply(classNames, arguments);
+	}
+
 	/**
 	 * Static method mix() for callable instance
 	 */
@@ -171,6 +176,7 @@
 		// Whilst JavaScript can't create callable objects with constructors
 		var b = callableInstance.bind(context);
 		b.toString = toString.bind(context);
+		b.split = split.bind(context);
 		b.mix = mix.bind(context);
 		b.state = state.bind(context);
 
