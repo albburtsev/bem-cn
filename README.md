@@ -1,4 +1,6 @@
-# bem-cn [![Build Status](https://secure.travis-ci.org/albburtsev/bem-cn.png?branch=master)](https://travis-ci.org/albburtsev/bem-cn)
+# bem-cn
+[![Build Status](https://secure.travis-ci.org/albburtsev/bem-cn.png?branch=master)](https://travis-ci.org/albburtsev/bem-cn)
+[![Coverage Status](https://coveralls.io/repos/albburtsev/bem-cn/badge.svg?branch=master)](https://coveralls.io/r/albburtsev/bem-cn?branch=master)
 
 Friendly [BEM](https://en.bem.info/) class names generator. Great for [React](http://facebook.github.io/react/).
 
