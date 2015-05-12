@@ -45,4 +45,5 @@ module.exports = (grunt) ->
 				files: ['<%= jsSource %>']
 				tasks: ['jshint', 'copy', 'uglify', 'notify']
 
-	grunt.registerTask 'default', ['jshint', 'copy', 'uglify', 'watch']
+	grunt.registerTask 'build', ['jshint', 'copy', 'uglify']
+	grunt.registerTask 'default', ['build', 'watch']

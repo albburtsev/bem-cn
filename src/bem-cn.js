@@ -1,4 +1,5 @@
 (function (root, factory) {
+	/* istanbul ignore next */
 	if ( typeof exports === 'object' ) {
 		// CommonJS
 		module.exports = factory();
