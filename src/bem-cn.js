@@ -47,10 +47,13 @@
 	}
 
 	/**
-	 * Converts object with modifiers to array of strings
-	 * Example: modObjectToArray({ color: 'red' }) -> ['', '_color_red']
+	 * Converts object with classes to array of strings
+	 * Example: objectToArray({ color: 'red' }) -> ['', '_color_red']
+	 *
+	 * @param {Object} obj { name: 'value' } or { name1: true, name2: false }
+	 * @param {String} [separator='_'] Separator or prefix
 	 */
-	function modObjectToArray(obj, separator) {
+	function objectToArray(obj, separator) {
 		if ( separator === undefined ) {
 			separator = separators.mod;
 		}
@@ -101,9 +104,9 @@
 		var name = this.name,
 			classList = name;
 
-		// Adds modifiers
+		// Add modifiers
 		classList = this.mods.reduce(function(classList, modObject) {
-			var modArray = modObjectToArray(modObject);
+			var modArray = objectToArray(modObject);
 
 			if ( modArray.length ) {
 				modArray.unshift('');
@@ -119,10 +122,10 @@
 		}
 
 		// Add states
-		var states = this.states;
-		classList = Object.keys(states).reduce(function(classList, state) {
-			return classList += states[state] ? space + is + state : '';
-		}, classList);
+		var states = objectToArray(this.states, 'is-');
+		if (states.length) {
+			classList += space + states.join(' ');
+		}
 
 		return classList;
 	}
@@ -146,7 +149,7 @@
 			} else if ( Array.isArray(className) ) {
 				classes = className;
 			} else {
-				classes = modObjectToArray(className, '');
+				classes = objectToArray(className, '');
 			}
 			context.mixes = context.mixes.concat(classes);
 		}
