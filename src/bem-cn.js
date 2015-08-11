@@ -50,7 +50,11 @@
 	 * Converts object with modifiers to array of strings
 	 * Example: modObjectToArray({ color: 'red' }) -> ['', '_color_red']
 	 */
-	function modObjectToArray(obj) {
+	function modObjectToArray(obj, separator) {
+		if ( separator === undefined ) {
+			separator = separators.mod;
+		}
+
 		return Object.keys(obj).reduce(function(array, key) {
 			var value = obj[key];
 
@@ -59,9 +63,9 @@
 			}
 
 			if ( value === true ) {
-				array.push(separators.mod + key);
+				array.push(separator + key);
 			} else {
-				array.push(separators.mod + key + separators.mod + value);
+				array.push(separator + key + separator + value);
 			}
 
 			return array;
@@ -130,12 +134,21 @@
 
 	/**
 	 * Static method mix() for callable instance
+	 * @param {String|Array|Object} className 'class'; ['one', 'two']; {one: true, two: false}
 	 */
 	function mix(className) {
-		var context = copy(this);
+		var context = copy(this),
+			classes;
 
 		if ( className ) {
-			context.mixes.push(className);
+			if ( typeof className === 'string' ) {
+				classes = [ className ];
+			} else if ( Array.isArray(className) ) {
+				classes = className;
+			} else {
+				classes = modObjectToArray(className, '');
+			}
+			context.mixes = context.mixes.concat(classes);
 		}
 
 		return factory(context);
