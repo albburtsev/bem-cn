@@ -62,7 +62,9 @@ b({ onlykey: true });  // 'button button_onlykey'
 b({ without: false });  // 'button'
 
 // Mix
-b('icon', { name: 'close' }).mix('another'); // 'button__icon button__icon_name_close another'
+b('icon').mix('another'); // 'button__icon another'
+b('icon').mix([ 'one', 'two' ); // 'button__icon one two'
+b('icon').mix({ one: true, two: false, three: true }); // 'button__icon one three'
 
 // States
 // As SMACSS states: https://smacss.com/book/type-state

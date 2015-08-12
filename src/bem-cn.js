@@ -47,10 +47,17 @@
 	}
 
 	/**
-	 * Converts object with modifiers to array of strings
-	 * Example: modObjectToArray({ color: 'red' }) -> ['', '_color_red']
+	 * Converts object with classes to array of strings
+	 * Example: objectToArray({ color: 'red' }) -> ['', '_color_red']
+	 *
+	 * @param {Object} obj { name: 'value' } or { name1: true, name2: false }
+	 * @param {String} [separator='_'] Separator or prefix
 	 */
-	function modObjectToArray(obj) {
+	function objectToArray(obj, separator) {
+		if ( separator === undefined ) {
+			separator = separators.mod;
+		}
+
 		return Object.keys(obj).reduce(function(array, key) {
 			var value = obj[key];
 
@@ -59,9 +66,9 @@
 			}
 
 			if ( value === true ) {
-				array.push(separators.mod + key);
+				array.push(separator + key);
 			} else {
-				array.push(separators.mod + key + separators.mod + value);
+				array.push(separator + key + separator + value);
 			}
 
 			return array;
@@ -97,9 +104,9 @@
 		var name = this.name,
 			classList = name;
 
-		// Adds modifiers
+		// Add modifiers
 		classList = this.mods.reduce(function(classList, modObject) {
-			var modArray = modObjectToArray(modObject);
+			var modArray = objectToArray(modObject);
 
 			if ( modArray.length ) {
 				modArray.unshift('');
@@ -115,10 +122,10 @@
 		}
 
 		// Add states
-		var states = this.states;
-		classList = Object.keys(states).reduce(function(classList, state) {
-			return classList += states[state] ? space + is + state : '';
-		}, classList);
+		var states = objectToArray(this.states, 'is-');
+		if (states.length) {
+			classList += space + states.join(' ');
+		}
 
 		return classList;
 	}
@@ -130,12 +137,21 @@
 
 	/**
 	 * Static method mix() for callable instance
+	 * @param {String|Array|Object} className 'class'; ['one', 'two']; {one: true, two: false}
 	 */
 	function mix(className) {
-		var context = copy(this);
+		var context = copy(this),
+			classes;
 
 		if ( className ) {
-			context.mixes.push(className);
+			if ( typeof className === 'string' ) {
+				classes = [ className ];
+			} else if ( Array.isArray(className) ) {
+				classes = className;
+			} else {
+				classes = objectToArray(className, '');
+			}
+			context.mixes = context.mixes.concat(classes);
 		}
 
 		return factory(context);

@@ -1,7 +1,7 @@
 'use strict';
 
 var should = require('should'),
-	Block = require('../dist/bem-cn');
+	Block = require('../src/bem-cn');
 
 describe('Wrapper function Block', function() {
 	it('should be a function', function(){
@@ -89,6 +89,12 @@ describe('Callable block instance', function() {
 		should(
 			b('icon', { name: 'close' }).mix('another').toString()
 		).equal('parent__icon parent__icon_name_close another');
+		should(
+			b.mix([ 'one', 'two' ]).toString()
+		).equal('parent one two');
+		should(
+			b.mix({ one: true, two: false, three: true }).toString()
+		).equal('parent one three');
 	});
 });
 
