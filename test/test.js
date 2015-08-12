@@ -1,24 +1,24 @@
 'use strict';
 
 var should = require('should'),
-	Block = require('../src/bem-cn');
+	block = require('../src/bem-cn');
 
-describe('Wrapper function Block', function() {
+describe('Wrapper function block', function() {
 	it('should be a function', function(){
-		should(Block).be.an.instanceOf(Function);
+		should(block).be.an.instanceOf(Function);
 	});
 });
 
 describe('Block instance', function() {
 	it('should return given block name', function() {
-		var b = Block('button');
+		var b = block('button');
 		should(b).be.an.instanceOf(Function);
 		should(b().toString()).equal('button');
 		should(b.toString()).equal('button');
 	});
 
 	it('should return splitted block name', function() {
-		var b = Block('button');
+		var b = block('button');
 		b = b({ mod: true });
 		should(b.split(' ')).be.an.instanceOf(Array);
 		should(b().split(' ')).eql(['button', 'button_mod']);
@@ -26,7 +26,7 @@ describe('Block instance', function() {
 	});
 
 	it('should have all necessary methods', function() {
-		var b = Block('button');
+		var b = block('button');
 		should(b.toString).be.an.instanceOf(Function);
 		should(b.mix).be.an.instanceOf(Function);
 		should(b.state).be.an.instanceOf(Function);
@@ -35,7 +35,7 @@ describe('Block instance', function() {
 });
 
 describe('Callable block instance', function() {
-	var b = Block('parent');
+	var b = block('parent');
 
 	it('should return elements class name', function() {
 		should(
@@ -99,7 +99,7 @@ describe('Callable block instance', function() {
 });
 
 describe('Unexpected arguments', function() {
-	var b = Block('block');
+	var b = block('block');
 
 	it('should be silent when passed unexpected value', function() {
 		should(
@@ -118,7 +118,7 @@ describe('Unexpected arguments', function() {
 });
 
 describe('States', function() {
-	var b = Block('block');
+	var b = block('block');
 
 	it('should set states', function() {
 		should(
@@ -141,16 +141,16 @@ describe('States', function() {
 
 describe('Setup custom separators', function() {
 	it('should be method setup()', function() {
-		should(Block.setup).be.an.instanceOf(Function);
+		should(block.setup).be.an.instanceOf(Function);
 	});
 
 	it('should be custom separators', function() {
-		Block.setup({
+		block.setup({
 			el: '~~',
 			mod: '-'
 		});
 
-		var b = Block('block');
+		var b = block('block');
 
 		should(
 			b('element').toString()

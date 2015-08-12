@@ -8,7 +8,7 @@
 		define([], factory);
 	} else {
 		// Browser globals
-		root.Block = factory();
+		root.block = factory();
 	}
 })(this, function () {
 	'use strict';
@@ -200,17 +200,17 @@
 	 * @param {String} name Block name
 	 * @return {Function}
 	 */
-	function Block(name) {
+	function block(name) {
 		return factory({ name: name });
 	}
 
 	/**
 	 * Setup separators
 	 */
-	Block.setup = function(obj) {
+	block.setup = function(obj) {
 		extend(separators, obj || {});
-		return Block;
+		return block;
 	};
 
-	return Block;
+	return block;
 });

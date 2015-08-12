@@ -38,7 +38,7 @@ bower install --save bem-cn
 Works with [webpack](http://webpack.github.io/) and [browserify](http://browserify.org/):
 
 ```js
-var Block = require('bem-cn');
+var block = require('bem-cn');
 ```
 
 ## Usage
@@ -46,7 +46,7 @@ var Block = require('bem-cn');
 Let's try:
 
 ```js
-var b = Block('button');
+var b = block('button');
 
 // Block
 b; // 'button'
@@ -73,12 +73,12 @@ b.state({ hidden: false }); // 'button'
 b.state({ hidden: true, error: true }); // 'button is-hidden is-error'
 
 // Custom separators
-Block.setup({
+block.setup({
     el: '~~',
     mod: '-'
 });
 
-var b = Block('block');
+var b = block('block');
 
 b('element'); // 'block~~element'
 b({ mod: 'value' }); // 'block block-mod-value'
@@ -87,8 +87,8 @@ b({ mod: 'value' }); // 'block block-mod-value'
 Usage with JSX:
 
 ```jsx
-var Block = require('bem-cn'),
-    b = Block('popup');
+var block = require('bem-cn'),
+    b = block('popup');
 
 var Popup = React.createClass({
     render: function() {
