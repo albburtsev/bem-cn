@@ -95,6 +95,9 @@ describe('Callable block instance', function() {
 		should(
 			b.mix({ one: true, two: false, three: true }).toString()
 		).equal('parent one three');
+		should(
+			b.mix(b).toString()
+		).equal('parent parent');
 	});
 });
 

@@ -65,6 +65,7 @@ b({ without: false });  // 'button'
 b('icon').mix('another'); // 'button__icon another'
 b('icon').mix([ 'one', 'two' ); // 'button__icon one two'
 b('icon').mix({ one: true, two: false, three: true }); // 'button__icon one three'
+b('icon').mix(b); // 'button__icon button'
 
 // States
 // As SMACSS states: https://smacss.com/book/type-state
