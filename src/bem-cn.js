@@ -137,14 +137,14 @@
 
 	/**
 	 * Static method mix() for callable instance
-	 * @param {String|Array|Object} className 'class'; ['one', 'two']; {one: true, two: false}
+	 * @param {String|Array|Object|block} className 'class'; ['one', 'two']; {one: true, two: false}; block('one')
 	 */
 	function mix(className) {
 		var context = copy(this),
 			classes;
 
 		if ( className ) {
-			if ( typeof className === 'string' ) {
+			if ( typeof className === 'string' || typeof className === 'function' ) {
 				classes = [ className ];
 			} else if ( Array.isArray(className) ) {
 				classes = className;
