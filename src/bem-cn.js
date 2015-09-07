@@ -144,7 +144,9 @@
 			classes;
 
 		if ( className ) {
-			if ( typeof className === 'string' ) {
+			if ( typeof className === 'function' ) {
+				classes = [ className.toString() ];
+			} else if ( typeof className === 'string' ) {
 				classes = [ className ];
 			} else if ( Array.isArray(className) ) {
 				classes = className;

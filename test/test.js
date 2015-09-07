@@ -80,6 +80,8 @@ describe('Callable block instance', function() {
 	});
 
 	it('should append mixed class', function() {
+		var another = block('another');
+
 		should(
 			b.mix('outer').toString()
 		).equal('parent outer');
@@ -95,6 +97,9 @@ describe('Callable block instance', function() {
 		should(
 			b.mix({ one: true, two: false, three: true }).toString()
 		).equal('parent one three');
+		should(
+			b.mix(another).toString()
+		).equal('parent another');
 	});
 });
 
