@@ -1,3 +1,7 @@
+### 2015-09-07 v1.1.1
+
+ * Method ```mix()``` supports another blocks
+
 ### 2015-08-12 v1.1.0
 
  * Breaking change for usage in browser: entry point ```Block``` renamed to ```block```
