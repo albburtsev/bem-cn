@@ -100,6 +100,15 @@ describe('Callable block instance', function() {
 		should(
 			b.mix(another).toString()
 		).equal('parent another');
+		should(
+			b.mix(another('child')).toString()
+		).equal('parent another__child');
+		should(
+			b.mix(another({ color: 'dark' })).toString()
+		).equal('parent another another_color_dark');
+		should(
+			b('icon', { name: 'close' }).mix(another({ color: 'dark' })).toString()
+		).equal('parent__icon parent__icon_name_close another another_color_dark');
 	});
 });
 
