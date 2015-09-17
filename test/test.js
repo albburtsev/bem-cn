@@ -152,22 +152,23 @@ describe('Setup custom separators', function() {
 	it('should be custom separators', function() {
 		block.setup({
 			el: '~~',
-			mod: '-'
+			mod: '-',
+			ns: 'ns-'
 		});
 
 		var b = block('block');
 
 		should(
 			b('element').toString()
-		).equal('block~~element');
+		).equal('ns-block~~element');
 		should(
 			b({ mod: 'value' }).toString()
-		).equal('block block-mod-value');
+		).equal('ns-block ns-block-mod-value');
 		should(
 			b({ mod: true }).toString()
-		).equal('block block-mod');
+		).equal('ns-block ns-block-mod');
 		should(
 			b('element', { mod: 'value' }).toString()
-		).equal('block~~element block~~element-mod-value');
+		).equal('ns-block~~element ns-block~~element-mod-value');
 	});
 });

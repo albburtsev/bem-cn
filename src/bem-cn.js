@@ -18,6 +18,7 @@
 	var is = 'is-',
 		space = ' ',
 		separators = {
+			ns: '',
 			el: '__',
 			mod: '_'
 		};
@@ -101,7 +102,8 @@
 	 * Static method toString() for callable instance
 	 */
 	function toString() {
-		var name = this.name,
+		// Add namespace
+		var name = separators.ns + this.name,
 			classList = name;
 
 		// Add modifiers
