@@ -1,3 +1,7 @@
+### 2015-09-17 v1.2.0
+
+ * Namespace available for setup in general settings
+
 ### 2015-09-07 v1.1.1
 
  * Method ```mix()``` supports another blocks

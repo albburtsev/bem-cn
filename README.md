@@ -71,8 +71,10 @@ b('icon').mix({ one: true, two: false, three: true }); // 'button__icon one thre
 b.state({ hidden: true }); // 'button is-hidden'
 b.state({ hidden: false }); // 'button'
 b.state({ hidden: true, error: true }); // 'button is-hidden is-error'
+```
 
-// Custom separators
+```js
+// Setup custom separators
 block.setup({
     el: '~~',
     mod: '-'
@@ -82,6 +84,14 @@ var b = block('block');
 
 b('element'); // 'block~~element'
 b({ mod: 'value' }); // 'block block-mod-value'
+```
+
+```js
+// Setup own namespace
+block.setup({ ns: 'ns-' });
+
+var b = block('block');
+b(); // 'ns-block'
 ```
 
 Usage with JSX:

@@ -20,9 +20,10 @@
 
 	/* jshint validthis: true */
 
-	var is = 'is-',
+	var	is = 'is-',
 		space = ' ',
-		separators = {
+		settings = {
+			ns: '',
 			el: '__',
 			mod: '_'
 		};
@@ -60,7 +61,7 @@
 	 */
 	function objectToArray(obj, separator) {
 		if ( separator === undefined ) {
-			separator = separators.mod;
+			separator = settings.mod;
 		}
 
 		return Object.keys(obj).reduce(function(array, key) {
@@ -89,7 +90,7 @@
 
 		context = args.reduce(function(context, argv) {
 			if ( argv && typeof argv === 'string' ) {
-				context.name = context.name + separators.el + argv;
+				context.name = context.name + settings.el + argv;
 			}
 
 			if ( argv && typeof argv === 'object' ) {
@@ -106,7 +107,8 @@
 	 * Static method toString() for callable instance
 	 */
 	function toString() {
-		var name = this.name,
+		// Add namespace
+		var	name = settings.ns + this.name,
 			classList = name;
 
 		// Add modifiers
@@ -212,10 +214,10 @@
 	}
 
 	/**
-	 * Setup separators
+	 * Setup settings
 	 */
 	block.setup = function(obj) {
-		extend(separators, obj || {});
+		extend(settings, obj || {});
 		return block;
 	};
 

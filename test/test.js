@@ -144,16 +144,16 @@ describe('States', function() {
 	});
 });
 
-describe('Setup custom separators', function() {
+describe('Setup custom settings', function() {
 	it('should be method setup()', function() {
 		should(block.setup).be.an.instanceOf(Function);
 	});
 
-	it('should be custom separators', function() {
+	it('should be custom separators and namespace', function() {
 		block.setup({
+			ns: 'ns-',
 			el: '~~',
 			mod: '-',
-			ns: 'ns-'
 		});
 
 		var b = block('block');
