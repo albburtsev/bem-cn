@@ -1,3 +1,7 @@
+### 2015-10-06 v1.2.1
+
+ * Bugfix: incorrect states for non boolean values in given object
+
 ### 2015-09-17 v1.2.0
 
  * Namespace available for setup in general settings
