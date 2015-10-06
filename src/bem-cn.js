@@ -124,10 +124,10 @@
 		}
 
 		// Add states
-		var states = objectToArray(this.states, 'is-');
-		if (states.length) {
-			classList += space + states.join(' ');
-		}
+		var states = this.states;
+		classList = Object.keys(states).reduce(function(classList, state) {
+			return classList += states[state] ? space + is + state : '';
+		}, classList);
 
 		return classList;
 	}

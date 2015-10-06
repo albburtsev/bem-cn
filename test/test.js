@@ -142,6 +142,9 @@ describe('States', function() {
 			b.state({ hidden: false }).toString()
 		).equal('block');
 		should(
+			b.state({ hidden: 'non boolean value' }).toString()
+		).equal('block is-hidden');
+		should(
 			b.state({ hidden: true, error: true }).toString()
 		).equal('block is-hidden is-error');
 		should(
