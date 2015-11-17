@@ -63,7 +63,7 @@ b({ without: false });  // 'button'
 
 // Mix
 b('icon').mix('another'); // 'button__icon another'
-b('icon').mix([ 'one', 'two' ); // 'button__icon one two'
+b('icon').mix([ 'one', 'two' ]); // 'button__icon one two'
 b('icon').mix({ one: true, two: false, three: true }); // 'button__icon one three'
 
 // States
