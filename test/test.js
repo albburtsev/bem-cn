@@ -165,7 +165,8 @@ describe('Setup custom settings', function() {
 		block.setup({
 			ns: 'ns-',
 			el: '~~',
-			mod: '-',
+			mod: '--',
+			modValue: '-'
 		});
 
 		var b = block('block');
@@ -175,12 +176,12 @@ describe('Setup custom settings', function() {
 		).equal('ns-block~~element');
 		should(
 			b({ mod: 'value' }).toString()
-		).equal('ns-block ns-block-mod-value');
+		).equal('ns-block ns-block--mod-value');
 		should(
 			b({ mod: true }).toString()
-		).equal('ns-block ns-block-mod');
+		).equal('ns-block ns-block--mod');
 		should(
 			b('element', { mod: 'value' }).toString()
-		).equal('ns-block~~element ns-block~~element-mod-value');
+		).equal('ns-block~~element ns-block~~element--mod-value');
 	});
 });
