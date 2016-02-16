@@ -1,6 +1,6 @@
 /**
  * bem-cn — friendly BEM class names generator
- * @author Alexander Burtsev, http://burtsev.me, 2015
+ * @author Alexander Burtsev, http://burtsev.me, 2016
  * @license MIT
  */
 (function (root, factory) {
@@ -25,7 +25,8 @@
 		settings = {
 			ns: '',
 			el: '__',
-			mod: '_'
+			mod: '_',
+			modValue: '_'
 		};
 
 	/**
@@ -64,6 +65,8 @@
 			separator = settings.mod;
 		}
 
+		var modValueSeparator = settings.modValue;
+
 		return Object.keys(obj).reduce(function(array, key) {
 			var value = obj[key];
 
@@ -74,7 +77,8 @@
 			if ( value === true ) {
 				array.push(separator + key);
 			} else {
-				array.push(separator + key + separator + value);
+				// Makes block__elem_{modifierKey}_{modifierValue}
+				array.push(separator + key + modValueSeparator + value);
 			}
 
 			return array;

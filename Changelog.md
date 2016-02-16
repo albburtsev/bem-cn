@@ -1,3 +1,7 @@
+### 2016-16-02 v1.2.2
+
+ * Added ability to specify name/value separator for modifier
+
 ### 2015-10-06 v1.2.1
 
  * Bugfix: incorrect states for non boolean values in given object
