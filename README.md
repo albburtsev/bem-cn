@@ -77,13 +77,14 @@ b.state({ hidden: true, error: true }); // 'button is-hidden is-error'
 // Setup custom separators
 block.setup({
     el: '~~',
-    mod: '-'
+    mod: '--',
+    modValue: '-'
 });
 
 var b = block('block');
 
 b('element'); // 'block~~element'
-b({ mod: 'value' }); // 'block block-mod-value'
+b({ mod: 'value' }); // 'block block--mod-value'
 ```
 
 ```js
