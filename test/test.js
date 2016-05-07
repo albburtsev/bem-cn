@@ -185,3 +185,74 @@ describe('Setup custom settings', function() {
 		).equal('ns-block~~element ns-block~~element--mod-value');
 	});
 });
+
+describe('From class map', function() {
+	var classMap = {
+		button: 'index__button___F5evr',
+		button_mod: 'index__button_mod___3tGjQ',
+		button__text: 'index__button__text___3ggzc',
+		button__text_inlined: 'index__text_inlined___3ggzc'
+	};
+
+	before(function () {
+		block.setup({
+			ns: '',
+			el: '__',
+			mod: '_',
+			modValue: '_',
+			classMap: classMap
+		});
+	});
+
+	after(function () {
+		block.setup({
+			ns: '',
+			el: '__',
+			mod: '_',
+			modValue: '_',
+			classMap: {}
+		});
+	});
+
+	it('should return given block name', function () {
+		var b = block('button');
+		should(b).be.an.instanceOf(Function);
+		should(b().toString()).equal(classMap.button);
+		should(b.toString()).equal(classMap.button);
+	});
+
+	it('should properly set class mod', function () {
+		var b = block('button');
+		b = b({ mod: true });
+
+		should(b).be.an.instanceOf(Function);
+		should(b().toString().split(' ')).eql([classMap.button, classMap.button_mod]);
+		should(b.toString().split(' ')).eql([classMap.button, classMap.button_mod]);
+	});
+
+	it('should properly set class elem', function () {
+		var button = block('button');
+		var text = button('text');
+
+		should(text).be.an.instanceOf(Function);
+		should(text().toString()).equal(classMap.button__text);
+		should(text.toString()).equal(classMap.button__text);
+	});
+
+	it('should properly set class elem mod', function () {
+		var button = block('button');
+		var textMod = button('text')({inlined:true});
+
+		should(textMod).be.an.instanceOf(Function);
+		should(textMod().toString().split(' ')).eql([classMap.button__text, classMap.button__text_inlined]);
+		should(textMod.toString().split(' ')).eql([classMap.button__text, classMap.button__text_inlined]);
+	});
+
+	it('should return splitted block name', function() {
+		var b = block('button');
+		b = b({ mod: true });
+		should(b.split(' ')).be.an.instanceOf(Array);
+		should(b().split(' ')).eql([classMap.button, classMap.button_mod]);
+		should(b.split(' ')).eql([classMap.button, classMap.button_mod]);
+	});
+});

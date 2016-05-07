@@ -21,7 +21,8 @@
 			ns: '',
 			el: '__',
 			mod: '_',
-			modValue: '_'
+			modValue: '_',
+			classMap: {}
 		};
 
 	/**
@@ -81,6 +82,15 @@
 	}
 
 	/**
+	 * Resolves real class name from classMap
+	 * @param {String} name
+	 * @returns string
+     */
+	function resolveClassName(name) {
+		return settings.classMap[name] ? settings.classMap[name] : name;
+	}
+
+	/**
 	 * Callable block instance
 	 */
 	function callableInstance() {
@@ -108,15 +118,19 @@
 	function toString() {
 		// Add namespace
 		var	name = settings.ns + this.name,
-			classList = name;
+			classList = resolveClassName(name);
 
 		// Add modifiers
 		classList = this.mods.reduce(function(classList, modObject) {
 			var modArray = objectToArray(modObject);
 
 			if ( modArray.length ) {
+				modArray = modArray.map(function (mod) {
+					return resolveClassName(name + mod);
+				});
+
 				modArray.unshift('');
-				classList += modArray.join(space + name);
+				classList += modArray.join(space);
 			}
 
 			return classList;
