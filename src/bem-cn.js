@@ -84,10 +84,10 @@
 	/**
 	 * Resolves real class name from classMap
 	 * @param {String} name
-	 * @returns string
+	 * @returns {String}
      */
 	function resolveClassName(name) {
-		return settings.classMap[name] ? settings.classMap[name] : name;
+		return settings.classMap[name] || name;
 	}
 
 	/**

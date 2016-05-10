@@ -186,7 +186,7 @@ describe('Setup custom settings', function() {
 	});
 });
 
-describe('From class map', function() {
+describe('Block with class mapping', function() {
 	var classMap = {
 		button: 'index__button___F5evr',
 		button_mod: 'index__button_mod___3tGjQ',
