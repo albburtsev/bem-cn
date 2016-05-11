@@ -6,6 +6,7 @@
   "scripts": {
     "test": "mocha",
     "build": "grunt build",
+    "prepublish": "npm run build",
     "coverage": "istanbul cover _mocha --report html -- -R spec",
     "coveralls": "istanbul cover _mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage"
   },

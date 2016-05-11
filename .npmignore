@@ -1,0 +1,6 @@
+/.npmignore
+/.gitignore
+/.travis.yml
+/Gruntfile.coffee
+/test/
+/coverage/
