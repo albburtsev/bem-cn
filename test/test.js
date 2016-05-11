@@ -1,7 +1,8 @@
 'use strict';
 
-var should = require('should'),
-	block = require('../src/bem-cn');
+import should from 'should';
+import block from './../src/bem-cn';
+
 
 describe('Wrapper function block', function() {
 	it('should be a function', function(){
