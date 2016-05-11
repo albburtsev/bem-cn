@@ -1,6 +1,6 @@
 /.npmignore
 /.gitignore
 /.travis.yml
-/Gruntfile.coffee
+/webpack.config.js
 /test/
 /coverage/

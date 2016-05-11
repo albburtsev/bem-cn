@@ -5,7 +5,9 @@
   "main": "dist/bem-cn.js",
   "scripts": {
     "test": "mocha",
-    "build": "grunt build",
+    "build": "npm run build:umd && npm run build:umd:min",
+    "build:umd": "webpack src/bem-cn.js dist/bem-cn.js --config webpack.config.js",
+    "build:umd:min": "NODE_ENV=production webpack src/bem-cn.js dist/bem-cn.min.js --config webpack.config.js",
     "prepublish": "npm run build",
     "coverage": "istanbul cover _mocha --report html -- -R spec",
     "coveralls": "istanbul cover _mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage"
@@ -23,24 +25,24 @@
     "element",
     "modifier"
   ],
-  "author": "Alexander Burtsev",
+  "author": {
+    "name": "Alexander Burtsev",
+    "url": "https://github.com/albburtsev"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/albburtsev/bem-cn/issues"
   },
   "homepage": "https://github.com/albburtsev/bem-cn",
   "devDependencies": {
+    "babel-core": "^6.8.0",
+    "babel-loader": "^6.2.4",
     "coveralls": "^2.11.2",
-    "grunt": "^0.4.5",
-    "grunt-contrib-copy": "^0.8.0",
-    "grunt-contrib-jshint": "^0.11.0",
-    "grunt-contrib-uglify": "^0.8.0",
-    "grunt-contrib-watch": "^0.6.1",
-    "grunt-notify": "^0.4.1",
     "istanbul": "^0.3.13",
-    "load-grunt-tasks": "^3.1.0",
+    "lodash": "^4.12.0",
     "mocha": "^2.2.1",
     "mocha-lcov-reporter": "0.0.2",
-    "should": "^5.2.0"
+    "should": "^5.2.0",
+    "webpack": "^1.13.0"
   }
 }
