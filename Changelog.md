@@ -1,3 +1,7 @@
+### 2016-11-05 v1.3.1
+
+ * Class mapping support
+
 ### 2016-16-02 v1.2.2
 
  * Added ability to specify name/value separator for modifier
