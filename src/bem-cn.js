@@ -52,6 +52,57 @@ const normilizeMixes = (mixes = []) => {
 };
 
 /**
+ * Returns final set of classes
+ * @return {String}
+ */
+const toString = (settings, context) => {
+	let {name, mods, mixes} = context,
+		classes = [name];
+
+	// Add list of modifiers
+	if (mods) {
+		classes = classes.concat(
+			Object.keys(mods)
+				.map((key) => {
+					let value = mods[key];
+
+					// Modifier with only name
+					if (value === true) {
+						return name + settings.mod + key;
+					// Modifier with name and value
+					} else if (value) {
+						return name + settings.mod + key + settings.modValue + value;
+					}
+				})
+				.filter((_class) => _class)
+		);
+	}
+
+	// Add mixes
+	if (mixes) {
+		classes = classes.concat(
+			normilizeMixes(mixes)
+		);
+	}
+
+	return classes.join(' ');
+};
+
+/**
+ * Adds new mixes
+ * @return {Function}
+ */
+const mix = function(settings, context, ...mixes) {
+	// Copy context object for new selector generator
+	let updated = assign({}, context);
+
+	// Copy and update list of mixes
+	updated.mixes = (updated.mixes || []).concat(mixes);
+
+	return selector(settings, updated);
+};
+
+/**
  * Selector generator, self-curried function
  * @param {Object} settings
  * @param {String} [settings.ns = ''] Namespace for all classes
@@ -62,6 +113,7 @@ const normilizeMixes = (mixes = []) => {
  * @param {Object} context
  * @param {String} context.name Block or element name
  * @param {Object} [context.mods] Store with all modifiers
+ * @param {Object} [context.states] Store with all states
  * @param {Array} [context.mixes] List of external classes
  * @return {Function}
  */
@@ -94,58 +146,8 @@ const selector = (settings, context) => {
 		// @todo
 	};
 
-	/**
-	 * Adds new mixes (should not be array function)
-	 * @return {Function}
-	 */
-	inner.mix = function() {
-		// Copy context object for new selector generator
-		let updated = assign({}, context);
-
-		// Copy and update list of mixes
-		updated.mixes = (updated.mixes || []).concat(
-			Array.prototype.slice.call(arguments)
-		);
-
-		return selector(settings, updated);
-	};
-
-	/**
-	 * Returns final set of classes
-	 * @return {String}
-	 */
-	inner.toString = inner.valueOf = () => {
-		let {name, mods, mixes} = context,
-			classes = [name];
-
-		// Add list of modifiers
-		if (mods) {
-			classes = classes.concat(
-				Object.keys(mods)
-					.map((key) => {
-						let value = mods[key];
-
-						// Modifier with only name
-						if (value === true) {
-							return name + settings.mod + key;
-						// Modifier with name and value
-						} else if (value) {
-							return name + settings.mod + key + settings.modValue + value;
-						}
-					})
-					.filter((_class) => _class)
-			);
-		}
-
-		// Add mixes
-		if (mixes) {
-			classes = classes.concat(
-				normilizeMixes(mixes)
-			);
-		}
-
-		return classes.join(' ');
-	};
+	inner.mix = mix.bind(null, settings, context);
+	inner.toString = inner.valueOf = toString.bind(null, settings, context);
 
 	inner.split = () => {
 		// @todo

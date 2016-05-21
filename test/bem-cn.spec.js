@@ -180,27 +180,27 @@ describe('Unexpected arguments', () => {
 	});
 });
 
-// describe('States', () => {
+// describe('Method state()', () => {
 // 	let b = block('block');
 
 // 	it('should set states', () => {
 // 		should(
-// 			b.state({ hidden: true }).toString()
+// 			b.state({hidden: true}).toString()
 // 		).equal('block is-hidden');
 // 		should(
-// 			b.state({ hidden: false }).toString()
+// 			b.state({hidden: false}).toString()
 // 		).equal('block');
 // 		should(
-// 			b.state({ hidden: 'non boolean value' }).toString()
+// 			b.state({hidden: 'non boolean value'}).toString()
 // 		).equal('block is-hidden');
 // 		should(
-// 			b.state({ hidden: true, error: true }).toString()
+// 			b.state({hidden: true, error: true}).toString()
 // 		).equal('block is-hidden is-error');
 // 		should(
-// 			b('element').state({ hidden: true }).toString()
+// 			b('element').state({hidden: true}).toString()
 // 		).equal('block__element is-hidden');
 // 		should(
-// 			b({ mod: 'value' }).state({ hidden: true }).toString()
+// 			b({mod: 'value'}).state({ hidden: true }).toString()
 // 		).equal('block block_mod_value is-hidden');
 // 	});
 // });
