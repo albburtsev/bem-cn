@@ -90,6 +90,12 @@ describe('Selector function', () => {
 		should(
 			b({skin: 'dark'}, {skin: 'light'}).toString()
 		).equal('parent parent_skin_light');
+		should(
+			b({skin: 'dark'})({skin: 'light'}).toString()
+		).equal('parent parent_skin_light');
+		should(
+			b('child', {skin: 'dark'}, {skin: 'light'}).toString()
+		).equal('parent__child parent__child_skin_light');
 	});
 
 	it('should not add modifiers with falsy values', () => {
@@ -110,78 +116,69 @@ describe('Selector function', () => {
 		).equal('parent');
 	});
 
-	// it('should return element modifier', () => {
-	// 	should(
-	// 		b('child', { color: 'dark' }).toString()
-	// 	).equal('parent__child parent__child_color_dark');
-	// 	should(
-	// 		b('child', { color: 'dark' }, { color: 'green' }).toString()
-	// 	).equal('parent__child parent__child_color_dark parent__child_color_green');
-	// 	should(
-	// 		b('child', { color: 'dark', value: 'none' }).toString()
-	// 	).equal('parent__child parent__child_color_dark parent__child_value_none');
-	// });
+	it('should return element modifier', () => {
+		should(
+			b('child', {color: 'dark'}).toString()
+		).equal('parent__child parent__child_color_dark');
+		should(
+			b('child', {color: 'dark', value: 'none'}).toString()
+		).equal('parent__child parent__child_color_dark parent__child_value_none');
+	});
 
-	// it('should create modifier without value', () => {
-	// 	should(
-	// 		b({ value: true }).toString()
-	// 	).equal('parent parent_value');
-	// 	should(
-	// 		b({ value: false }).toString()
-	// 	).equal('parent');
-	// });
+	it('should create modifier without value', () => {
+		should(
+			b({value: true}).toString()
+		).equal('parent parent_value');
+	});
 
-	// it('should append mixed class', () => {
-	// 	var another = block('another');
+	it('should append mixed class', () => {
+		let another = block('another');
 
-	// 	should(
-	// 		b.mix('outer').toString()
-	// 	).equal('parent outer');
-	// 	should(
-	// 		b('child').mix('outer').toString()
-	// 	).equal('parent__child outer');
-	// 	should(
-	// 		b('icon', { name: 'close' }).mix('another').toString()
-	// 	).equal('parent__icon parent__icon_name_close another');
-	// 	should(
-	// 		b.mix([ 'one', 'two' ]).toString()
-	// 	).equal('parent one two');
-	// 	should(
-	// 		b.mix({ one: true, two: false, three: true }).toString()
-	// 	).equal('parent one three');
-	// 	should(
-	// 		b.mix(another).toString()
-	// 	).equal('parent another');
-	// 	should(
-	// 		b.mix(another('child')).toString()
-	// 	).equal('parent another__child');
-	// 	should(
-	// 		b.mix(another({ color: 'dark' })).toString()
-	// 	).equal('parent another another_color_dark');
-	// 	should(
-	// 		b('icon', { name: 'close' }).mix(another({ color: 'dark' })).toString()
-	// 	).equal('parent__icon parent__icon_name_close another another_color_dark');
-	// });
+		should(
+			b.mix('outer').toString()
+		).equal('parent outer');
+		should(
+			b('child').mix('outer').toString()
+		).equal('parent__child outer');
+		should(
+			b('icon', {name: 'close'}).mix('another').toString()
+		).equal('parent__icon parent__icon_name_close another');
+		should(
+			b.mix(['one', 'two']).toString()
+		).equal('parent one two');
+		should(
+			b.mix(another).toString()
+		).equal('parent another');
+		should(
+			b.mix(another('child')).toString()
+		).equal('parent another__child');
+		should(
+			b.mix(another({color: 'dark'})).toString()
+		).equal('parent another another_color_dark');
+		should(
+			b('icon', {name: 'close'}).mix(another({color: 'dark'})).toString()
+		).equal('parent__icon parent__icon_name_close another another_color_dark');
+	});
 });
 
-// describe('Unexpected arguments', () => {
-// 	let b = block('block');
+describe('Unexpected arguments', () => {
+	let b = block('block');
 
-// 	it('should be silent when passed unexpected value', () => {
-// 		should(
-// 			b(null).toString()
-// 		).equal('block');
-// 		should(
-// 			b.mix(null).toString()
-// 		).equal('block');
-// 		should(
-// 			b(null).mix(null).toString()
-// 		).equal('block');
-// 		should(
-// 			b()()()().toString()
-// 		).equal('block');
-// 	});
-// });
+	it('should be silent when passed unexpected value', () => {
+		should(
+			b(null).toString()
+		).equal('block');
+		should(
+			b.mix(null).toString()
+		).equal('block');
+		should(
+			b(null).mix(null).toString()
+		).equal('block');
+		should(
+			b()()()().toString()
+		).equal('block');
+	});
+});
 
 // describe('States', () => {
 // 	let b = block('block');

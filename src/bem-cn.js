@@ -30,6 +30,28 @@ export const ERROR_BLOCK_NAME_TYPE = 'Block name should be a string';
 export const ERROR_BLOCK_NAME_EMPTY = 'Block name should be non-empty';
 
 /**
+ * Returns given mixes as list of strings
+ * @param {*[]} mixes
+ * @return {String[]}
+ * @example
+block('block').mix(block('another')); "block another"
+block('one').mix(['two', 'three']); "one two three"
+ */
+const normilizeMixes = (mixes = []) => {
+	return mixes
+		.map((mix) => {
+			if (typeof mix === 'function') {
+				return mix.toString();
+			} else if (Array.isArray(mix)) {
+				return mix.join(' ');
+			} else if (typeof mix === 'string') {
+				return mix;
+			}
+		})
+		.filter((mix) => mix);
+};
+
+/**
  * Selector generator, self-curried function
  * @param {Object} settings
  * @param {String} [settings.ns = ''] Namespace for all classes
@@ -40,11 +62,16 @@ export const ERROR_BLOCK_NAME_EMPTY = 'Block name should be non-empty';
  * @param {Object} context
  * @param {String} context.name Block or element name
  * @param {Object} [context.mods] Store with all modifiers
+ * @param {Array} [context.mixes] List of external classes
  * @return {Function}
  */
 const selector = (settings, context) => {
 	const inner = (...args) => {
-		let updated = args.reduce((updated, arg) => {
+		// Don't forget to copy context object for new selector generator
+		let updated = assign({}, context)
+
+		// Add new elements and modifiers to the context
+		updated = args.reduce((updated, arg) => {
 			// New element found
 			if (typeof arg === 'string') {
 				updated.name += settings.el + arg;
@@ -54,7 +81,7 @@ const selector = (settings, context) => {
 			}
 
 			return updated;
-		}, assign({}, context));
+		}, updated);
 
 		return selector(settings, updated);
 	};
@@ -67,12 +94,28 @@ const selector = (settings, context) => {
 		// @todo
 	};
 
-	inner.mix = () => {
-		// @todo
+	/**
+	 * Adds new mixes (should not be array function)
+	 * @return {Function}
+	 */
+	inner.mix = function() {
+		// Copy context object for new selector generator
+		let updated = assign({}, context);
+
+		// Copy and update list of mixes
+		updated.mixes = (updated.mixes || []).concat(
+			Array.prototype.slice.call(arguments)
+		);
+
+		return selector(settings, updated);
 	};
 
+	/**
+	 * Returns final set of classes
+	 * @return {String}
+	 */
 	inner.toString = inner.valueOf = () => {
-		let {name, mods} = context,
+		let {name, mods, mixes} = context,
 			classes = [name];
 
 		// Add list of modifiers
@@ -91,6 +134,13 @@ const selector = (settings, context) => {
 						}
 					})
 					.filter((_class) => _class)
+			);
+		}
+
+		// Add mixes
+		if (mixes) {
+			classes = classes.concat(
+				normilizeMixes(mixes)
 			);
 		}
 
