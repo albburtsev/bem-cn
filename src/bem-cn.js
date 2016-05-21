@@ -38,12 +38,21 @@ export const ERROR_BLOCK_NAME_EMPTY = 'Block name should be non-empty';
  * @param {String} [settings.modValue = '_'] Delimiter before modifier value
  * @param {Object} [settings.classMap = null]
  * @param {Object} context
- * @param {String} context.name Block name
+ * @param {String} context.name Block or element name
  * @return {Function}
  */
 const selector = (settings, context) => {
-	const inner = () => {
-		return selector(settings, context);
+	const inner = (...args) => {
+		let updated = args.reduce((updated, arg) => {
+			// New element found
+			if (typeof arg === 'string') {
+				context.name += settings.el + arg;
+			}
+
+			return updated;
+		}, context); // @todo: assign({}, context)
+
+		return selector(settings, updated);
 	};
 
 	inner.is = () => {

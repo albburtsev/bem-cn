@@ -66,16 +66,16 @@ describe('Block name', () => {
 });
 
 describe('Callable block instance', () => {
-	// let b = block('parent');
+	let b = block('parent');
 
-	// it('should return elements class name', () => {
-	// 	should(
-	// 		b('child').toString()
-	// 	).equal('parent__child');
-	// 	should(
-	// 		b('child', 'infant').toString()
-	// 	).equal('parent__child__infant');
-	// });
+	it('should return elements class name', () => {
+		should(
+			b('child').toString()
+		).equal('parent__child');
+		should(
+			b('child', 'infant').toString()
+		).equal('parent__child__infant');
+	});
 
 	// it('should return block modifier', () => {
 	// 	should(
