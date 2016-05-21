@@ -255,35 +255,54 @@ describe('Method has()', () => {
 	});
 });
 
-// describe('Setup custom settings', () => {
-// 	it('should be method setup()', () => {
-// 		should(block.setup).be.an.instanceOf(Function);
-// 	});
+describe('Method setup()', () => {
+	it('should set custom settings', () => {
+		block.setup({
+			ns: 'ns-',
+			el: '~~',
+			mod: '--',
+			modValue: '-'
+		});
 
-// 	it('should be custom separators and namespace', () => {
-// 		block.setup({
-// 			ns: 'ns-',
-// 			el: '~~',
-// 			mod: '--',
-// 			modValue: '-'
-// 		});
+		let b = block('block');
 
-// 		let b = block('block');
+		should(
+			b('element').toString()
+		).equal('ns-block~~element');
+		should(
+			b({ mod: 'value' }).toString()
+		).equal('ns-block ns-block--mod-value');
+		should(
+			b({ mod: true }).toString()
+		).equal('ns-block ns-block--mod');
+		should(
+			b('element', { mod: 'value' }).toString()
+		).equal('ns-block~~element ns-block~~element--mod-value');
+	});
+});
 
-// 		should(
-// 			b('element').toString()
-// 		).equal('ns-block~~element');
-// 		should(
-// 			b({ mod: 'value' }).toString()
-// 		).equal('ns-block ns-block--mod-value');
-// 		should(
-// 			b({ mod: true }).toString()
-// 		).equal('ns-block ns-block--mod');
-// 		should(
-// 			b('element', { mod: 'value' }).toString()
-// 		).equal('ns-block~~element ns-block~~element--mod-value');
-// 	});
-// });
+describe('Method reset()', () => {
+	it('should reset custom settings', () => {
+		block.setup({
+			ns: 'ns-',
+			el: '~~',
+			mod: '--',
+			modValue: '-'
+		});
+
+		let b = block('block');
+
+		should(
+			b('element', { mod: 'value' }).toString()
+		).equal('ns-block~~element ns-block~~element--mod-value');
+
+		block.reset();
+
+		should(
+			b('element', { mod: 'value' }).toString()
+		).equal('block__element block__element_mod_value');
+	});
+});
 
 // describe('Block with class mapping', () => {
 // 	var classMap = {

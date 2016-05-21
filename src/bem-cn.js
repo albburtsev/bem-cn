@@ -32,6 +32,16 @@ export const ERROR_BLOCK_NAME_EMPTY = 'Block name should be non-empty';
 const IS_PREFIX = 'is-';
 const HAS_PREFIX = 'has-';
 
+let defaultSettings = {
+		ns: '',
+		el: '__',
+		mod: '_',
+		modValue: '_',
+		classMap: null
+	},
+	// Settings object is global on module level
+	settings = assign({}, defaultSettings);
+
 /**
  * Returns given mixes as list of strings
  * @param {*[]} mixes
@@ -101,6 +111,11 @@ const toString = (settings, context) => {
 		});
 	}
 
+	// Add namespace
+	if (settings.ns) {
+		classes = classes.map((className) => settings.ns + className);
+	}
+
 	return classes.join(' ');
 };
 
@@ -125,7 +140,7 @@ const mix = (settings, context, ...mixes) => {
  * Adds new states to context and returns selector
  * @param {Object} settings
  * @param {Object} context
- * @param {String} prefix
+ * @param {String} prefix One of available prefixes `is-` or `has-`
  * @param {Object} states
  * @return {Function}
  */
@@ -206,22 +221,23 @@ const block = (name) => {
 		throw new Error(ERROR_BLOCK_NAME_EMPTY);
 	}
 
-	block.setup = () => {
-		// @todo
+	/**
+	 * Updates settings object
+	 * @param  {Object} custom New custom settings
+	 */
+	block.setup = (custom = {}) => {
+		assign(settings, custom);
 	};
 
+	/**
+	 * Sets default settings
+	 */
 	block.reset = () => {
-		// @todo
+		assign(settings, defaultSettings);
 	};
 
 	// It is easy to define default settings here
-	return selector({
-		ns: '',
-		el: '__',
-		mod: '_',
-		modValue: '_',
-		classMap: null
-	}, {name});
+	return selector(settings, {name});
 };
 
 export default block;

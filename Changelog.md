@@ -4,6 +4,7 @@
  * Block function throws exception if block name isn't a string or empty string
  * Impossible to add some modifiers with the same name: `block('button')({skin: 'dark'})({skin: 'light'}); // "button_skin_light"`
  * Method `mix` doesn't support objects
+ * Implemented static method `block.reset()`
 
 ### 2016-11-05 v1.3.1
 
