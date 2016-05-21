@@ -24,7 +24,7 @@ const block = (settings) => {
 	return selector(settings);
 };
  */
-import {trim} from './helpers';
+import {trim, assign} from './helpers';
 
 export const ERROR_BLOCK_NAME_TYPE = 'Block name should be a string';
 export const ERROR_BLOCK_NAME_EMPTY = 'Block name should be non-empty';
@@ -46,11 +46,11 @@ const selector = (settings, context) => {
 		let updated = args.reduce((updated, arg) => {
 			// New element found
 			if (typeof arg === 'string') {
-				context.name += settings.el + arg;
+				updated.name += settings.el + arg;
 			}
 
 			return updated;
-		}, context); // @todo: assign({}, context)
+		}, assign({}, context));
 
 		return selector(settings, updated);
 	};
