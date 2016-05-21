@@ -205,6 +205,56 @@ describe('Method state()', () => {
 	});
 });
 
+describe('Method is()', () => {
+	let b = block('block');
+
+	it('should set states with is- prefix', () => {
+		should(
+			b.is({hidden: true}).toString()
+		).equal('block is-hidden');
+		should(
+			b.is({hidden: false}).toString()
+		).equal('block');
+		should(
+			b.is({hidden: 'non boolean value'}).toString()
+		).equal('block is-hidden');
+		should(
+			b.is({hidden: true, error: true}).toString()
+		).equal('block is-hidden is-error');
+		should(
+			b('element').is({hidden: true}).toString()
+		).equal('block__element is-hidden');
+		should(
+			b({mod: 'value'}).is({ hidden: true }).toString()
+		).equal('block block_mod_value is-hidden');
+	});
+});
+
+describe('Method has()', () => {
+	let b = block('block');
+
+	it('should set states with has- prefix', () => {
+		should(
+			b.has({child: true}).toString()
+		).equal('block has-child');
+		should(
+			b.has({child: false}).toString()
+		).equal('block');
+		should(
+			b.has({child: 'non boolean value'}).toString()
+		).equal('block has-child');
+		should(
+			b.has({child: true, footer: true}).toString()
+		).equal('block has-child has-footer');
+		should(
+			b('element').has({child: true}).toString()
+		).equal('block__element has-child');
+		should(
+			b({mod: 'value'}).has({child: true}).toString()
+		).equal('block block_mod_value has-child');
+	});
+});
+
 // describe('Setup custom settings', () => {
 // 	it('should be method setup()', () => {
 // 		should(block.setup).be.an.instanceOf(Function);

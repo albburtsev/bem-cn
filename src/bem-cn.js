@@ -28,7 +28,9 @@ import {trim, assign} from './helpers';
 
 export const ERROR_BLOCK_NAME_TYPE = 'Block name should be a string';
 export const ERROR_BLOCK_NAME_EMPTY = 'Block name should be non-empty';
+
 const IS_PREFIX = 'is-';
+const HAS_PREFIX = 'has-';
 
 /**
  * Returns given mixes as list of strings
@@ -88,18 +90,25 @@ const toString = (settings, context) => {
 
 	// Add states
 	if (states) {
-		classes = classes.concat(
-			Object.keys(states)
-				.filter((key) => states[key])
-				.map((key) => IS_PREFIX + key)
-		);
+		Object.keys(states).forEach((prefix) => {
+			let statesByPrefix = states[prefix];
+
+			classes = classes.concat(
+				Object.keys(statesByPrefix)
+					.filter((key) => statesByPrefix[key])
+					.map((key) => prefix + key)
+			);
+		});
 	}
 
 	return classes.join(' ');
 };
 
 /**
- * Adds new mixes
+ * Adds new mixes to context and returns selector
+ * @param {Object} settings
+ * @param {Object} context
+ * @param {*} mixes
  * @return {Function}
  */
 const mix = (settings, context, ...mixes) => {
@@ -112,12 +121,22 @@ const mix = (settings, context, ...mixes) => {
 	return selector(settings, copied);
 };
 
-const state = (settings, context, ...states) => {
+/**
+ * Adds new states to context and returns selector
+ * @param {Object} settings
+ * @param {Object} context
+ * @param {String} prefix
+ * @param {Object} states
+ * @return {Function}
+ */
+const state = (settings, context, prefix, ...states) => {
 	// Copy context object for new selector generator
-	let copied = assign({}, context);
+	let copied = assign({}, context),
+		copiedState = assign({}, copied.states || {});
 
 	// Copy and update object with states
-	copied.states = assign({}, copied.states || {}, ...states);
+	copiedState[prefix] = assign({}, copiedState[prefix] || {}, ...states);
+	copied.states = copiedState;
 
 	return selector(settings, copied);
 };
@@ -158,16 +177,9 @@ const selector = (settings, context) => {
 		return selector(settings, copied);
 	};
 
-	inner.is = () => {
-		// @todo
-	};
-
-	inner.has = () => {
-		// @todo
-	};
-
 	inner.mix = mix.bind(null, settings, context);
-	inner.state = state.bind(null, settings, context);
+	inner.has = state.bind(null, settings, context, HAS_PREFIX);
+	inner.state = inner.is = state.bind(null, settings, context, IS_PREFIX);
 	inner.toString = inner.valueOf = toString.bind(null, settings, context);
 
 	inner.split = () => {
