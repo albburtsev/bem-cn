@@ -21,13 +21,14 @@ const selector = (settings, context) => {
 const block = (name) => {
 	// ...
 
-	return selector(settings, {name});
+	return selector(defaultSettings, {name});
 };
  */
 import {trim, assign} from './helpers';
 
 export const ERROR_BLOCK_NAME_TYPE = 'Block name should be a string';
 export const ERROR_BLOCK_NAME_EMPTY = 'Block name should be non-empty';
+const IS_PREFIX = 'is-';
 
 /**
  * Returns given mixes as list of strings
@@ -56,13 +57,14 @@ const normilizeMixes = (mixes = []) => {
  * @return {String}
  */
 const toString = (settings, context) => {
-	let {name, mods, mixes} = context,
+	let {name, mods, mixes, states} = context,
 		classes = [name];
 
 	// Add list of modifiers
 	if (mods) {
 		classes = classes.concat(
 			Object.keys(mods)
+				.filter((key) => mods[key])
 				.map((key) => {
 					let value = mods[key];
 
@@ -70,11 +72,10 @@ const toString = (settings, context) => {
 					if (value === true) {
 						return name + settings.mod + key;
 					// Modifier with name and value
-					} else if (value) {
+					} else {
 						return name + settings.mod + key + settings.modValue + value;
 					}
 				})
-				.filter((_class) => _class)
 		);
 	}
 
@@ -85,6 +86,15 @@ const toString = (settings, context) => {
 		);
 	}
 
+	// Add states
+	if (states) {
+		classes = classes.concat(
+			Object.keys(states)
+				.filter((key) => states[key])
+				.map((key) => IS_PREFIX + key)
+		);
+	}
+
 	return classes.join(' ');
 };
 
@@ -92,14 +102,24 @@ const toString = (settings, context) => {
  * Adds new mixes
  * @return {Function}
  */
-const mix = function(settings, context, ...mixes) {
+const mix = (settings, context, ...mixes) => {
 	// Copy context object for new selector generator
-	let updated = assign({}, context);
+	let copied = assign({}, context);
 
 	// Copy and update list of mixes
-	updated.mixes = (updated.mixes || []).concat(mixes);
+	copied.mixes = (copied.mixes || []).concat(mixes);
 
-	return selector(settings, updated);
+	return selector(settings, copied);
+};
+
+const state = (settings, context, ...states) => {
+	// Copy context object for new selector generator
+	let copied = assign({}, context);
+
+	// Copy and update object with states
+	copied.states = assign({}, copied.states || {}, ...states);
+
+	return selector(settings, copied);
 };
 
 /**
@@ -120,22 +140,22 @@ const mix = function(settings, context, ...mixes) {
 const selector = (settings, context) => {
 	const inner = (...args) => {
 		// Don't forget to copy context object for new selector generator
-		let updated = assign({}, context)
+		let copied = assign({}, context)
 
 		// Add new elements and modifiers to the context
-		updated = args.reduce((updated, arg) => {
+		copied = args.reduce((copied, arg) => {
 			// New element found
 			if (typeof arg === 'string') {
-				updated.name += settings.el + arg;
+				copied.name += settings.el + arg;
 			// New modifier found
 			} else if (typeof arg === 'object') {
-				updated.mods = assign(updated.mods || {}, arg);
+				copied.mods = assign(copied.mods || {}, arg);
 			}
 
-			return updated;
-		}, updated);
+			return copied;
+		}, copied);
 
-		return selector(settings, updated);
+		return selector(settings, copied);
 	};
 
 	inner.is = () => {
@@ -147,13 +167,10 @@ const selector = (settings, context) => {
 	};
 
 	inner.mix = mix.bind(null, settings, context);
+	inner.state = state.bind(null, settings, context);
 	inner.toString = inner.valueOf = toString.bind(null, settings, context);
 
 	inner.split = () => {
-		// @todo
-	};
-
-	inner.state = () => {
 		// @todo
 	};
 
