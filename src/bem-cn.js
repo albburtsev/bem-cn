@@ -18,10 +18,10 @@ const selector = (settings, context) => {
 	return inner;
 };
 
-const block = (settings) => {
+const block = (name) => {
 	// ...
 
-	return selector(settings);
+	return selector(settings, {name});
 };
  */
 import {trim, assign} from './helpers';
@@ -39,6 +39,7 @@ export const ERROR_BLOCK_NAME_EMPTY = 'Block name should be non-empty';
  * @param {Object} [settings.classMap = null]
  * @param {Object} context
  * @param {String} context.name Block or element name
+ * @param {Object} [context.mods] Store with all modifiers
  * @return {Function}
  */
 const selector = (settings, context) => {
@@ -47,6 +48,9 @@ const selector = (settings, context) => {
 			// New element found
 			if (typeof arg === 'string') {
 				updated.name += settings.el + arg;
+			// New modifier found
+			} else if (typeof arg === 'object') {
+				updated.mods = assign(updated.mods || {}, arg);
 			}
 
 			return updated;
@@ -68,8 +72,29 @@ const selector = (settings, context) => {
 	};
 
 	inner.toString = inner.valueOf = () => {
-		let {name} = context;
-		return name;
+		let {name, mods} = context,
+			classes = [name];
+
+		// Add list of modifiers
+		if (mods) {
+			classes = classes.concat(
+				Object.keys(mods)
+					.map((key) => {
+						let value = mods[key];
+
+						// Modifier with only name
+						if (value === true) {
+							return name + settings.mod + key;
+						// Modifier with name and value
+						} else if (value) {
+							return name + settings.mod + key + settings.modValue + value;
+						}
+					})
+					.filter((_class) => _class)
+			);
+		}
+
+		return classes.join(' ');
 	};
 
 	inner.split = () => {

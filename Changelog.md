@@ -1,3 +1,9 @@
+### v2.0.0
+
+ * Impossible to add some modifiers with the same name: `block('button')({skin: 'dark'})({skin: 'light'}); // "button_skin_light"`
+ * Block function trims given blobk name
+ * Block function throws exception if block name isn't a string or empty string
+
 ### 2016-11-05 v1.3.1
 
  * Class mapping support

@@ -65,7 +65,7 @@ describe('Block name', () => {
 	});
 });
 
-describe('Callable block instance', () => {
+describe('Selector function', () => {
 	let b = block('parent');
 
 	it('should return elements class name', () => {
@@ -77,17 +77,38 @@ describe('Callable block instance', () => {
 		).equal('parent__child__infant');
 	});
 
-	// it('should return block modifier', () => {
-	// 	should(
-	// 		b({ color: 'dark' }).toString()
-	// 	).equal('parent parent_color_dark');
-	// 	should(
-	// 		b({ color: 'dark' }, { color: 'green' }).toString()
-	// 	).equal('parent parent_color_dark parent_color_green');
-	// 	should(
-	// 		b({ color: 'dark', value: 'none' }).toString()
-	// 	).equal('parent parent_color_dark parent_value_none');
-	// });
+	it('should return block with modifier', () => {
+		should(
+			b({color: 'dark'}).toString()
+		).equal('parent parent_color_dark');
+		should(
+			b({color: 'dark', value: 'none'}).toString()
+		).equal('parent parent_color_dark parent_value_none');
+	});
+
+	it('should not add some modifiers with the same name', () => {
+		should(
+			b({skin: 'dark'}, {skin: 'light'}).toString()
+		).equal('parent parent_skin_light');
+	});
+
+	it('should not add modifiers with falsy values', () => {
+		should(
+			b({mod: 0}).toString()
+		).equal('parent');
+		should(
+			b({mod: ''}).toString()
+		).equal('parent');
+		should(
+			b({mod: null}).toString()
+		).equal('parent');
+		should(
+			b({mod: false}).toString()
+		).equal('parent');
+		should(
+			b({mod: undefined}).toString()
+		).equal('parent');
+	});
 
 	// it('should return element modifier', () => {
 	// 	should(
