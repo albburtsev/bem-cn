@@ -304,73 +304,49 @@ describe('Method reset()', () => {
 	});
 });
 
-// describe('Block with class mapping', () => {
-// 	var classMap = {
-// 		button: 'index__button___F5evr',
-// 		button_mod: 'index__button_mod___3tGjQ',
-// 		button__text: 'index__button__text___3ggzc',
-// 		button__text_inlined: 'index__text_inlined___3ggzc'
-// 	};
+describe('Block with class mapping', () => {
+	var classMap = {
+		button: 'index__button___F5evr',
+		button_mod: 'index__button_mod___3tGjQ',
+		button__text: 'index__button__text___3ggzc',
+		button__text_inlined: 'index__text_inlined___3ggzc'
+	};
 
-// 	before(function () {
-// 		block.setup({
-// 			ns: '',
-// 			el: '__',
-// 			mod: '_',
-// 			modValue: '_',
-// 			classMap: classMap
-// 		});
-// 	});
+	before(
+		() => block.setup({classMap})
+	);
 
-// 	after(function () {
-// 		block.setup({
-// 			ns: '',
-// 			el: '__',
-// 			mod: '_',
-// 			modValue: '_',
-// 			classMap: {}
-// 		});
-// 	});
+	after(
+		() => block.setup({classMap: null})
+	);
 
-// 	it('should return given block name', function () {
-// 		let b = block('button');
-// 		should(b).be.an.instanceOf(Function);
-// 		should(b().toString()).equal(classMap.button);
-// 		should(b.toString()).equal(classMap.button);
-// 	});
+	it('should return class for block name', () => {
+		let b = block('button');
 
-// 	it('should properly set class mod', function () {
-// 		let b = block('button');
-// 		b = b({ mod: true });
+		should(b().toString()).equal(classMap.button);
+		should(b.toString()).equal(classMap.button);
+	});
 
-// 		should(b).be.an.instanceOf(Function);
-// 		should(b().toString().split(' ')).equal([classMap.button, classMap.button_mod]);
-// 		should(b.toString().split(' ')).equal([classMap.button, classMap.button_mod]);
-// 	});
+	it('should properly set class for modifier', () => {
+		let b = block('button')({mod: true});
 
-// 	it('should properly set class elem', function () {
-// 		let button = block('button');
-// 		var text = button('text');
+		should(b().toString()).equal([classMap.button, classMap.button_mod].join(' '));
+		should(b.toString()).equal([classMap.button, classMap.button_mod].join(' '));
+	});
 
-// 		should(text).be.an.instanceOf(Function);
-// 		should(text().toString()).equal(classMap.button__text);
-// 		should(text.toString()).equal(classMap.button__text);
-// 	});
+	it('should properly set class element', () => {
+		let button = block('button'),
+			text = button('text');
 
-// 	it('should properly set class elem mod', function () {
-// 		let button = block('button');
-// 		var textMod = button('text')({inlined:true});
+		should(text().toString()).equal(classMap.button__text);
+		should(text.toString()).equal(classMap.button__text);
+	});
 
-// 		should(textMod).be.an.instanceOf(Function);
-// 		should(textMod().toString().split(' ')).equal([classMap.button__text, classMap.button__text_inlined]);
-// 		should(textMod.toString().split(' ')).equal([classMap.button__text, classMap.button__text_inlined]);
-// 	});
+	it('should properly set class element with modifier', () => {
+		let button = block('button'),
+			textMod = button('text')({inlined:true});
 
-// 	it('should return splitted block name', () => {
-// 		let b = block('button');
-// 		b = b({ mod: true });
-// 		should(b.split(' ')).be.an.instanceOf(Array);
-// 		should(b().split(' ')).equal([classMap.button, classMap.button_mod]);
-// 		should(b.split(' ')).equal([classMap.button, classMap.button_mod]);
-// 	});
-// });
+		should(textMod().toString()).equal([classMap.button__text, classMap.button__text_inlined].join(' '));
+		should(textMod.toString()).equal([classMap.button__text, classMap.button__text_inlined].join(' '));
+	});
+});

@@ -116,6 +116,11 @@ const toString = (settings, context) => {
 		classes = classes.map((className) => settings.ns + className);
 	}
 
+	// Resolve class name from classMap
+	if (settings.classMap) {
+		classes = classes.map((className) => settings.classMap[className] || className);
+	}
+
 	return classes.join(' ');
 };
 
@@ -207,7 +212,6 @@ const selector = (settings, context) => {
 /**
  * Creates new BEM block
  * @param {String} name
- * @todo: second parameter `settings`
  * @return {Function} Selector generator
  */
 const block = (name) => {
