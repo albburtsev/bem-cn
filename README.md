@@ -1,16 +1,14 @@
-# bem-cn
+# BEM class names generator
 [![Build Status](https://secure.travis-ci.org/albburtsev/bem-cn.png?branch=master)](https://travis-ci.org/albburtsev/bem-cn)
 [![Coverage Status](https://coveralls.io/repos/albburtsev/bem-cn/badge.svg?branch=master)](https://coveralls.io/r/albburtsev/bem-cn?branch=master)
 
 Friendly [BEM](https://en.bem.info/) class names generator. Great for [React](http://facebook.github.io/react/).
 
-**Bem-cn** (aka BEM Class Name) is extra small (minified+gzipped less than 1Kb) and extremely simple client-side library and Node.js module.
+**Bem-cn** (aka BEM Class Name) is extra small (minified+gzipped less than 1.5Kb) and extremely simple client-side library and Node.js module.
 
 Inspired by [b_](https://github.com/azproduction/b_).
 
-## Why?
-
-Why I created yet another node module?
+## Justification
 
 I spent a lot of time finding [BEM](https://en.bem.info/) class name generator, that meets my needs:
 
@@ -19,7 +17,7 @@ I spent a lot of time finding [BEM](https://en.bem.info/) class name generator, 
  * Mix multiple blocks
  * Friendly chainable API
 
-But now (March 2015) I can't find it. That's why.
+When my efforts had led to naught I've created this micro library.
 
 ## Install
 
@@ -38,12 +36,14 @@ bower install --save bem-cn
 Works with [webpack](http://webpack.github.io/) and [browserify](http://browserify.org/):
 
 ```js
+// CommonJS
 var block = require('bem-cn');
+
+// or ES6 modules
+import block from 'bem-cn';
 ```
 
-## Usage
-
-Let's try:
+## Cheat sheet
 
 ```js
 var b = block('button');
@@ -56,25 +56,29 @@ b(); // 'button'
 b('icon'); // 'button__icon'
 
 // Modifier
-b({ type: 'text' });  // 'button button_type_text'
-b({ type: 'text' }, { type: 'colored' }); // 'button button_type_text button_type_colored'
-b({ onlykey: true });  // 'button button_onlykey'
-b({ without: false });  // 'button'
+b({type: 'text'});  // 'button button_type_text'
+b({onlykey: true});  // 'button button_onlykey'
+b({without: false});  // 'button'
 
-// Mix
+b('icon', {name: 'check'}); // 'button__icon button__icon_name_check'
+b('icon')({name: 'check'}); // 'button__icon button__icon_name_check'
+
+// Mix another classes
 b('icon').mix('another'); // 'button__icon another'
-b('icon').mix([ 'one', 'two' ]); // 'button__icon one two'
-b('icon').mix({ one: true, two: false, three: true }); // 'button__icon one three'
+b('icon').mix(['one', 'two']); // 'button__icon one two'
 
-// States
-// As SMACSS states: https://smacss.com/book/type-state
-b.state({ hidden: true }); // 'button is-hidden'
-b.state({ hidden: false }); // 'button'
-b.state({ hidden: true, error: true }); // 'button is-hidden is-error'
+// States like in SMACSS: https://smacss.com/book/type-state
+b.state({hidden: true}); // 'button is-hidden'
+b.state({hidden: false}); // 'button'
+b.state({hidden: true, error: true}); // 'button is-hidden is-error'
+
+// More states!
+b.is({loading: true}); // 'button is-loading'
+b.has({content: true}); // 'button has-content'
 ```
 
 ```js
-// Setup custom separators
+// Setup custom delimiters
 block.setup({
     el: '~~',
     mod: '--',
@@ -84,42 +88,56 @@ block.setup({
 var b = block('block');
 
 b('element'); // 'block~~element'
-b({ mod: 'value' }); // 'block block--mod-value'
+b({mod: 'value'}); // 'block block--mod-value'
 ```
 
 ```js
-// Setup own namespace
-block.setup({ ns: 'ns-' });
+// Setup namespace
+block.setup({ns: 'ns-'});
 
 var b = block('block');
+
 b(); // 'ns-block'
+b('element'); // 'ns-block__element'
+b({mod: 'value'}); // 'ns-block ns-block_mod_value'
 ```
 
-Usage with JSX:
+## Try it with React
 
 ```jsx
-var block = require('bem-cn'),
-    b = block('popup');
+import block from 'bem-cn';
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+var b = block('popup');
 
 var Popup = React.createClass({
-    render: function() {
+    render() {
+        let {skin, children} = this.props;
+
         return (
-            <div className={b.mix(this.props.mix)}>
+            <div className={b}>
             	<span className={b('icon')} />
-            	<div className={b('content', { skin: this.props.skin })}>
-            		{this.props.children}
+            	<div className={b('content', {skin})}>
+            		{children}
             	</div>
             </div>
         );
     }
 });
 
-React.render(<Popup mix="another" skin="bright" />, target);
+ReactDOM.render(<Popup skin="bright">Hello!<Popup>, target);
+
 /*
-<div class="popup another">
+<div class="popup">
 	<span class="popup__icon"></span>
 	<div class="popup__content popup__content_skin_bright">
+        Hello!
 	</div>
 </div>
  */
 ```
+
+## Troubleshooting
+
+Todo.
