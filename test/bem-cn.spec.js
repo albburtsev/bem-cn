@@ -304,6 +304,17 @@ describe('Method reset()', () => {
 	});
 });
 
+describe('Method split()', () => {
+	it('should work as String.prototype.split', () => {
+		let b = block('block');
+
+		should(b.split()).eql(['block']);
+		should(b.split(' ')).eql(['block']);
+		should(b.split('')).eql(['b', 'l', 'o', 'c', 'k']);
+		should(b('element', {mod: 'value'}).split(' ')).eql(['block__element', 'block__element_mod_value']);
+	});
+});
+
 describe('Block with class mapping', () => {
 	var classMap = {
 		button: 'index__button___F5evr',

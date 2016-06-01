@@ -201,10 +201,11 @@ const selector = (settings, context) => {
 	inner.has = state.bind(null, settings, context, HAS_PREFIX);
 	inner.state = inner.is = state.bind(null, settings, context, IS_PREFIX);
 	inner.toString = inner.valueOf = toString.bind(null, settings, context);
-
-	inner.split = () => {
-		// @todo
-	};
+	inner.split = (...args) =>
+		String.prototype.split.apply(
+			toString.bind(null, settings, context)(),
+			args
+		);
 
 	return inner;
 };
