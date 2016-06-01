@@ -174,9 +174,6 @@ describe('Unexpected arguments', () => {
 		should(
 			b(null).mix(null).toString()
 		).equal('block');
-		should(
-			b()()()().toString()
-		).equal('block');
 	});
 });
 
@@ -312,6 +309,28 @@ describe('Method split()', () => {
 		should(b.split(' ')).eql(['block']);
 		should(b.split('')).eql(['b', 'l', 'o', 'c', 'k']);
 		should(b('element', {mod: 'value'}).split(' ')).eql(['block__element', 'block__element_mod_value']);
+	});
+});
+
+describe('Call without arguments', () => {
+	it('should return the same as toString()', () => {
+		let b = block('block');
+
+		should(
+			b()
+		).equal('block');
+		should(
+			b('icon')()
+		).equal('block__icon');
+		should(
+			b('icon', {mod: 'value'})()
+		).equal('block__icon block__icon_mod_value');
+		should(
+			b('icon')({mod: 'value'})()
+		).equal('block__icon block__icon_mod_value');
+		should(
+			b('icon')({mod: 'value'}).is({loading: true})()
+		).equal('block__icon block__icon_mod_value is-loading');
 	});
 });
 

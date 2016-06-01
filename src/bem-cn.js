@@ -178,6 +178,11 @@ const state = (settings, context, prefix, ...states) => {
  */
 const selector = (settings, context) => {
 	const inner = (...args) => {
+		// Call without arguments, time to return class names as a string
+		if (!args.length) {
+			return toString(settings, context);
+		}
+
 		// Don't forget to copy context object for new selector generator
 		let copied = assign({}, context)
 
@@ -203,7 +208,7 @@ const selector = (settings, context) => {
 	inner.toString = inner.valueOf = toString.bind(null, settings, context);
 	inner.split = (...args) =>
 		String.prototype.split.apply(
-			toString.bind(null, settings, context)(),
+			toString(settings, context),
 			args
 		);
 
