@@ -18,7 +18,7 @@
   ],
   "license": "MIT",
   "ignore": [
-    "Gruntfile.coffee",
+    "webpack.config.js",
     "package.json",
     "test"
   ]
