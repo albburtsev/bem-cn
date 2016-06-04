@@ -109,9 +109,9 @@ import block from 'bem-cn';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-var b = block('popup');
+let b = block('popup');
 
-var Popup = React.createClass({
+let Popup = React.createClass({
     render() {
         let {skin, children} = this.props;
 
@@ -140,4 +140,42 @@ ReactDOM.render(<Popup skin="bright">Hello!<Popup>, target);
 
 ## Troubleshooting
 
-Todo.
+### PropTypes warnings
+
+`bem-cn` has specific chainable API. As a result, each call returns function for a further call. But most components are expecting property `className` as a string and using `propTypes` object for check this. In this case, you will see a warning. There are the couple of ways to avoid these warnings below.
+
+#### #1
+
+Use final call without arguments to get a string
+
+```jsx
+<CustomComponent className={b('icon')()} />
+```
+
+#### #2
+
+Use explicit call of method `toString()`:
+
+```jsx
+<CustomComponent className={b('icon').toString()} />
+```
+
+#### #3
+
+Use less specific propTypes rules:
+
+```js
+let CustomComponent = React.createClass({
+    propTypes: {
+        className: React.PropTypes.oneOf([
+            React.PropTypes.string,
+            React.PropTypes.func
+        ])
+    },
+    // ...
+});
+```
+
+### ES3 browsers
+
+`bem-cn` is fully compatible with ES5 browsers. If you are going to support ES3 browsers than just use [es5 shim](https://github.com/es-shims/es5-shim).
