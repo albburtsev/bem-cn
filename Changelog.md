@@ -1,10 +1,12 @@
 ### v2.0.0
 
- * Block function trims given blobk name
+ * Source code was rewritten from scratch
+ * Block function trims given block name
  * Block function throws exception if block name isn't a string or empty string
- * Impossible to add some modifiers with the same name: `block('button')({skin: 'dark'})({skin: 'light'}); // "button_skin_light"`
+ * Impossible to add several modifiers with the same name: `block('button')({skin: 'dark'})({skin: 'light'}); // "button_skin_light"`
  * Method `mix` doesn't support objects
  * Implemented static method `block.reset()`
+ * Implemented new state-methods `is()` and `has()`
 
 ### 2016-11-05 v1.3.1
 
