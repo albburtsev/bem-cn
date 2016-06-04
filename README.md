@@ -104,7 +104,7 @@ b({mod: 'value'}); // 'ns-block ns-block_mod_value'
 
 ## Try it with React
 
-```jsx
+```js
 import block from 'bem-cn';
 import React from 'react';
 import ReactDOM from 'react-dom';
