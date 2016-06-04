@@ -2,7 +2,7 @@
  * How it's working?
  * The essential part of this module is based on using currying pattern.
  * Just take a look at the interface:
- * 
+ *
  * @example
 const selector = (settings, context) => {
 	const inner = () => {
@@ -50,7 +50,7 @@ let defaultSettings = {
 block('block').mix(block('another')); "block another"
 block('one').mix(['two', 'three']); "one two three"
  */
-const normilizeMixes = (mixes = []) => {
+function normilizeMixes(mixes = []) {
 	return mixes
 		.map((mix) => {
 			if (typeof mix === 'function') {
@@ -60,15 +60,17 @@ const normilizeMixes = (mixes = []) => {
 			} else if (typeof mix === 'string') {
 				return mix;
 			}
+
+			return '';
 		})
 		.filter((mix) => mix);
-};
+}
 
 /**
  * Returns final set of classes
  * @return {String}
  */
-const toString = (settings, context) => {
+function toString(settings, context) {
 	let {name, mods, mixes, states} = context,
 		classes = [name];
 
@@ -122,7 +124,7 @@ const toString = (settings, context) => {
 	}
 
 	return classes.join(' ');
-};
+}
 
 /**
  * Adds new mixes to context and returns selector
@@ -131,7 +133,7 @@ const toString = (settings, context) => {
  * @param {*} mixes
  * @return {Function}
  */
-const mix = (settings, context, ...mixes) => {
+function mix(settings, context, ...mixes) {
 	// Copy context object for new selector generator
 	let copied = assign({}, context);
 
@@ -139,7 +141,7 @@ const mix = (settings, context, ...mixes) => {
 	copied.mixes = (copied.mixes || []).concat(mixes);
 
 	return selector(settings, copied);
-};
+}
 
 /**
  * Adds new states to context and returns selector
@@ -149,7 +151,7 @@ const mix = (settings, context, ...mixes) => {
  * @param {Object} states
  * @return {Function}
  */
-const state = (settings, context, prefix, ...states) => {
+function state(settings, context, prefix, ...states) {
 	// Copy context object for new selector generator
 	let copied = assign({}, context),
 		copiedState = assign({}, copied.states || {});
@@ -159,7 +161,7 @@ const state = (settings, context, prefix, ...states) => {
 	copied.states = copiedState;
 
 	return selector(settings, copied);
-};
+}
 
 /**
  * Selector generator, self-curried function
@@ -176,15 +178,15 @@ const state = (settings, context, prefix, ...states) => {
  * @param {Array} [context.mixes] List of external classes
  * @return {Function}
  */
-const selector = (settings, context) => {
-	const inner = (...args) => {
+function selector(settings, context) {
+	function inner(...args) {
 		// Call without arguments, time to return class names as a string
 		if (!args.length) {
 			return toString(settings, context);
 		}
 
 		// Don't forget to copy context object for new selector generator
-		let copied = assign({}, context)
+		let copied = assign({}, context);
 
 		// Add new elements and modifiers to the context
 		copied = args.reduce((copied, arg) => {
@@ -200,7 +202,7 @@ const selector = (settings, context) => {
 		}, copied);
 
 		return selector(settings, copied);
-	};
+	}
 
 	inner.mix = mix.bind(null, settings, context);
 	inner.has = state.bind(null, settings, context, HAS_PREFIX);
@@ -213,14 +215,14 @@ const selector = (settings, context) => {
 		);
 
 	return inner;
-};
+}
 
 /**
  * Creates new BEM block
  * @param {String} name
  * @return {Function} Selector generator
  */
-const block = (name) => {
+function block(name) {
 	if (typeof name !== 'string') {
 		throw new Error(ERROR_BLOCK_NAME_TYPE);
 	}
@@ -248,6 +250,6 @@ const block = (name) => {
 
 	// It is easy to define default settings here
 	return selector(settings, {name});
-};
+}
 
 export default block;

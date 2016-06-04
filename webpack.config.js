@@ -11,6 +11,12 @@ var _ = require('lodash'),
 
 var config = {
     module: {
+        preLoaders: [
+            {
+                test: /\.js$/,
+                loader: 'eslint'
+            }
+        ],
         loaders: [
             {
                 test: /\.js$/,

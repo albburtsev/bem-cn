@@ -1,5 +1,3 @@
-'use strict';
-
 import should from 'should';
 import block, {ERROR_BLOCK_NAME_TYPE, ERROR_BLOCK_NAME_EMPTY} from './../src/bem-cn';
 
@@ -33,31 +31,31 @@ describe('Block output', () => {
 
 describe('Block name', () => {
 	it('should be a string', () => {
-		should(function() {
+		should(() => {
 			block();
 		}).throw(ERROR_BLOCK_NAME_TYPE);
-		should(function() {
+		should(() => {
 			block(1);
 		}).throw(ERROR_BLOCK_NAME_TYPE);
-		should(function() {
+		should(() => {
 			block({});
 		}).throw(ERROR_BLOCK_NAME_TYPE);
-		should(function() {
+		should(() => {
 			block(true);
 		}).throw(ERROR_BLOCK_NAME_TYPE);
-		should(function() {
+		should(() => {
 			block(null);
 		}).throw(ERROR_BLOCK_NAME_TYPE);
 	});
 
 	it('should be non-empty string', () => {
-		should(function() {
+		should(() => {
 			block('');
 		}).throw(ERROR_BLOCK_NAME_EMPTY);
 	});
 
 	it('should be trimmed', () => {
-		should(function() {
+		should(() => {
 			block(' ');
 		}).throw(ERROR_BLOCK_NAME_EMPTY);
 
@@ -197,7 +195,7 @@ describe('Method state()', () => {
 			b('element').state({hidden: true}).toString()
 		).equal('block__element is-hidden');
 		should(
-			b({mod: 'value'}).state({ hidden: true }).toString()
+			b({mod: 'value'}).state({hidden: true}).toString()
 		).equal('block block_mod_value is-hidden');
 	});
 });
@@ -222,7 +220,7 @@ describe('Method is()', () => {
 			b('element').is({hidden: true}).toString()
 		).equal('block__element is-hidden');
 		should(
-			b({mod: 'value'}).is({ hidden: true }).toString()
+			b({mod: 'value'}).is({hidden: true}).toString()
 		).equal('block block_mod_value is-hidden');
 	});
 });
@@ -267,13 +265,13 @@ describe('Method setup()', () => {
 			b('element').toString()
 		).equal('ns-block~~element');
 		should(
-			b({ mod: 'value' }).toString()
+			b({mod: 'value'}).toString()
 		).equal('ns-block ns-block--mod-value');
 		should(
-			b({ mod: true }).toString()
+			b({mod: true}).toString()
 		).equal('ns-block ns-block--mod');
 		should(
-			b('element', { mod: 'value' }).toString()
+			b('element', {mod: 'value'}).toString()
 		).equal('ns-block~~element ns-block~~element--mod-value');
 	});
 });
@@ -290,13 +288,13 @@ describe('Method reset()', () => {
 		let b = block('block');
 
 		should(
-			b('element', { mod: 'value' }).toString()
+			b('element', {mod: 'value'}).toString()
 		).equal('ns-block~~element ns-block~~element--mod-value');
 
 		block.reset();
 
 		should(
-			b('element', { mod: 'value' }).toString()
+			b('element', {mod: 'value'}).toString()
 		).equal('block__element block__element_mod_value');
 	});
 });
@@ -335,7 +333,7 @@ describe('Call without arguments', () => {
 });
 
 describe('Block with class mapping', () => {
-	var classMap = {
+	let classMap = {
 		button: 'index__button___F5evr',
 		button_mod: 'index__button_mod___3tGjQ',
 		button__text: 'index__button__text___3ggzc',
@@ -374,7 +372,7 @@ describe('Block with class mapping', () => {
 
 	it('should properly set class element with modifier', () => {
 		let button = block('button'),
-			textMod = button('text')({inlined:true});
+			textMod = button('text')({inlined: true});
 
 		should(textMod().toString()).equal([classMap.button__text, classMap.button__text_inlined].join(' '));
 		should(textMod.toString()).equal([classMap.button__text, classMap.button__text_inlined].join(' '));
