@@ -64,9 +64,9 @@ describe('Block name', () => {
 });
 
 describe('Selector function', () => {
-	let b = block('parent');
-
 	it('should return elements class name', () => {
+		let b = block('parent');
+
 		should(
 			b('child').toString()
 		).equal('parent__child');
@@ -76,6 +76,8 @@ describe('Selector function', () => {
 	});
 
 	it('should return block with modifier', () => {
+		let b = block('parent');
+
 		should(
 			b({color: 'dark'}).toString()
 		).equal('parent parent_color_dark');
@@ -85,6 +87,8 @@ describe('Selector function', () => {
 	});
 
 	it('should not add some modifiers with the same name', () => {
+		let b = block('parent');
+
 		should(
 			b({skin: 'dark'}, {skin: 'light'}).toString()
 		).equal('parent parent_skin_light');
@@ -97,6 +101,8 @@ describe('Selector function', () => {
 	});
 
 	it('should not add modifiers with falsy values', () => {
+		let b = block('parent');
+
 		should(
 			b({mod: 0}).toString()
 		).equal('parent');
@@ -115,6 +121,8 @@ describe('Selector function', () => {
 	});
 
 	it('should return element modifier', () => {
+		let b = block('parent');
+
 		should(
 			b('child', {color: 'dark'}).toString()
 		).equal('parent__child parent__child_color_dark');
@@ -124,12 +132,15 @@ describe('Selector function', () => {
 	});
 
 	it('should create modifier without value', () => {
+		let b = block('parent');
+
 		should(
 			b({value: true}).toString()
 		).equal('parent parent_value');
 	});
 
 	it('should append mixed class', () => {
+		let b = block('parent');
 		let another = block('another');
 
 		should(
@@ -160,9 +171,9 @@ describe('Selector function', () => {
 });
 
 describe('Unexpected arguments', () => {
-	let b = block('block');
-
 	it('should be silent when passed unexpected value', () => {
+		let b = block('block');
+
 		should(
 			b(null).toString()
 		).equal('block');
@@ -176,9 +187,9 @@ describe('Unexpected arguments', () => {
 });
 
 describe('Method state()', () => {
-	let b = block('block');
-
 	it('should set states', () => {
+		let b = block('block');
+
 		should(
 			b.state({hidden: true}).toString()
 		).equal('block is-hidden');
@@ -201,9 +212,9 @@ describe('Method state()', () => {
 });
 
 describe('Method is()', () => {
-	let b = block('block');
-
 	it('should set states with is- prefix', () => {
+		let b = block('block');
+
 		should(
 			b.is({hidden: true}).toString()
 		).equal('block is-hidden');
@@ -226,9 +237,9 @@ describe('Method is()', () => {
 });
 
 describe('Method has()', () => {
-	let b = block('block');
-
 	it('should set states with has- prefix', () => {
+		let b = block('block');
+
 		should(
 			b.has({child: true}).toString()
 		).equal('block has-child');
