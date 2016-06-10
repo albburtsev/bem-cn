@@ -6,6 +6,14 @@ describe('Wrapper function block', () => {
 	it('should be a function', () => {
 		should(block).be.an.instanceOf(Function);
 	});
+
+	it('should expose a function setup', () => {
+		should(block.setup).be.an.instanceOf(Function);
+	});
+
+	it('should expose a function reset', () => {
+		should(block.reset).be.an.instanceOf(Function);
+	});
 });
 
 describe('Block output', () => {
