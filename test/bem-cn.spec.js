@@ -1,6 +1,6 @@
 import should from 'should';
-import block, {ERROR_BLOCK_NAME_TYPE, ERROR_BLOCK_NAME_EMPTY} from './../src/bem-cn';
-
+import block from './../src/bem-cn';
+import {ERROR_BLOCK_NAME_TYPE, ERROR_BLOCK_NAME_EMPTY} from './../src/constants';
 
 describe('Wrapper function block', () => {
 	it('should be a function', () => {

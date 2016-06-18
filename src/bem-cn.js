@@ -25,9 +25,7 @@ const block = (name) => {
 };
  */
 import {trim, assign} from './helpers';
-
-export const ERROR_BLOCK_NAME_TYPE = 'Block name should be a string';
-export const ERROR_BLOCK_NAME_EMPTY = 'Block name should be non-empty';
+import {ERROR_BLOCK_NAME_TYPE, ERROR_BLOCK_NAME_EMPTY} from './constants';
 
 const IS_PREFIX = 'is-';
 const HAS_PREFIX = 'has-';
