@@ -1,3 +1,7 @@
+### 2016-06-18 v2.1.0
+
+ * Exports `default` in Babel 5 style with [babel-plugin-add-module-exports](https://www.npmjs.com/package/babel-plugin-add-module-exports)
+
 ### 2016-06-04 v2.0.0
 
  * Source code was rewritten from scratch

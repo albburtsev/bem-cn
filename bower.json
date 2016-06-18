@@ -1,6 +1,6 @@
 {
   "name": "bem-cn",
-  "version": "1.3.1",
+  "version": "2.1.0",
   "homepage": "https://github.com/albburtsev/bem-cn",
   "description": "Friendly BEM class names generator, greate for React",
   "main": "dist/bem-cn.js",
