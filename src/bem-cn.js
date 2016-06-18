@@ -231,23 +231,23 @@ function block(name) {
 		throw new Error(ERROR_BLOCK_NAME_EMPTY);
 	}
 
-	/**
-	 * Updates settings object
-	 * @param  {Object} custom New custom settings
-	 */
-	block.setup = (custom = {}) => {
-		assign(settings, custom);
-	};
-
-	/**
-	 * Sets default settings
-	 */
-	block.reset = () => {
-		assign(settings, defaultSettings);
-	};
-
 	// It is easy to define default settings here
 	return selector(settings, {name});
 }
+
+/**
+ * Updates settings object
+ * @param  {Object} custom New custom settings
+ */
+block.setup = (custom = {}) => {
+	assign(settings, custom);
+};
+
+/**
+ * Sets default settings
+ */
+block.reset = () => {
+	assign(settings, defaultSettings);
+};
 
 export default block;
