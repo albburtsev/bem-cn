@@ -1,3 +1,7 @@
+### 2016-06-19 v2.1.1
+
+ * Bugfix: make `setup` and `reset` methods truly static
+
 ### 2016-06-18 v2.1.0
 
  * Exports `default` in Babel 5 style with [babel-plugin-add-module-exports](https://www.npmjs.com/package/babel-plugin-add-module-exports)
