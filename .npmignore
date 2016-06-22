@@ -1,5 +1,6 @@
 /.npmignore
 /.gitignore
+/.babelrc
 /.travis.yml
 /webpack.config.js
 /test/
