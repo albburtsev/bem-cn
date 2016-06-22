@@ -1,3 +1,7 @@
+### 2016-06-22 v2.1.2
+
+ * Added `.babelrc` to `.npmignore`
+
 ### 2016-06-19 v2.1.1
 
  * Bugfix: make `setup` and `reset` methods truly static
