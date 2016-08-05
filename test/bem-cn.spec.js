@@ -310,6 +310,15 @@ describe('Method setup()', () => {
 		should(
 			b('element', {mod: 'value'}).toString()
 		).equal('ns-block~~element ns-block~~element--mod-value');
+
+		block.reset();
+		block.setup({
+			mod: '--',
+			dropMod: true
+		});
+		should(
+			b('element', {mod: 'value'}).toString()
+		).equal('block__element block__element--value');
 	});
 });
 
