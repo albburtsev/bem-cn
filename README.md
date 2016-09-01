@@ -126,7 +126,7 @@ let Popup = React.createClass({
     }
 });
 
-ReactDOM.render(<Popup skin="bright">Hello!<Popup>, target);
+ReactDOM.render(<Popup skin="bright">Hello!</Popup>, target);
 
 /*
 <div class="popup">
