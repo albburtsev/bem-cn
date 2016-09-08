@@ -3,6 +3,8 @@ import block from './../src/bem-cn';
 import {ERROR_BLOCK_NAME_TYPE, ERROR_BLOCK_NAME_EMPTY} from './../src/constants';
 
 describe('Wrapper function block', () => {
+	after(block.reset);
+
 	it('should be a function', () => {
 		should(block).be.an.instanceOf(Function);
 	});
@@ -17,6 +19,8 @@ describe('Wrapper function block', () => {
 });
 
 describe('Block output', () => {
+	after(block.reset);
+
 	it('should be a given block name', () => {
 		let b = block('button');
 
@@ -38,6 +42,8 @@ describe('Block output', () => {
 });
 
 describe('Block name', () => {
+	after(block.reset);
+
 	it('should be a string', () => {
 		should(() => {
 			block();
@@ -72,6 +78,8 @@ describe('Block name', () => {
 });
 
 describe('Selector function', () => {
+	after(block.reset);
+
 	it('should return elements class name', () => {
 		let b = block('parent');
 
@@ -179,6 +187,8 @@ describe('Selector function', () => {
 });
 
 describe('Unexpected arguments', () => {
+	after(block.reset);
+
 	it('should be silent when passed unexpected value', () => {
 		let b = block('block');
 
@@ -195,6 +205,8 @@ describe('Unexpected arguments', () => {
 });
 
 describe('Method state()', () => {
+	after(block.reset);
+
 	it('should set states', () => {
 		let b = block('block');
 
@@ -220,6 +232,8 @@ describe('Method state()', () => {
 });
 
 describe('Method is()', () => {
+	after(block.reset);
+
 	it('should set states with is- prefix', () => {
 		let b = block('block');
 
@@ -245,6 +259,8 @@ describe('Method is()', () => {
 });
 
 describe('Method has()', () => {
+	after(block.reset);
+
 	it('should set states with has- prefix', () => {
 		let b = block('block');
 
@@ -270,6 +286,8 @@ describe('Method has()', () => {
 });
 
 describe('Method setup()', () => {
+	after(block.reset);
+
 	it('should set custom settings', () => {
 		block.setup({
 			ns: 'ns-',
@@ -292,10 +310,21 @@ describe('Method setup()', () => {
 		should(
 			b('element', {mod: 'value'}).toString()
 		).equal('ns-block~~element ns-block~~element--mod-value');
+
+		block.reset();
+		block.setup({
+			mod: '--',
+			dropMod: true
+		});
+		should(
+			b('element', {mod: 'value'}).toString()
+		).equal('block__element block__element--value');
 	});
 });
 
 describe('Method reset()', () => {
+	after(block.reset);
+
 	it('should reset custom settings', () => {
 		block.setup({
 			ns: 'ns-',
@@ -319,6 +348,8 @@ describe('Method reset()', () => {
 });
 
 describe('Method split()', () => {
+	after(block.reset);
+
 	it('should work as String.prototype.split', () => {
 		let b = block('block');
 
@@ -330,6 +361,8 @@ describe('Method split()', () => {
 });
 
 describe('Call without arguments', () => {
+	after(block.reset);
+
 	it('should return the same as toString()', () => {
 		let b = block('block');
 
@@ -364,7 +397,10 @@ describe('Block with class mapping', () => {
 	);
 
 	after(
-		() => block.setup({classMap: null})
+		() => {
+			block.setup({classMap: null});
+			block.reset();
+		}
 	);
 
 	it('should return class for block name', () => {

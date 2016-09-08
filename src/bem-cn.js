@@ -35,6 +35,7 @@ let defaultSettings = {
 		el: '__',
 		mod: '_',
 		modValue: '_',
+		dropMod: false,
 		classMap: null
 	},
 	// Settings object is global on module level
@@ -83,6 +84,9 @@ function toString(settings, context) {
 					// Modifier with only name
 					if (value === true) {
 						return name + settings.mod + key;
+					// Modifier with only value
+					} else if (settings.dropMod === true) {
+						return name + settings.mod + value;
 					// Modifier with name and value
 					} else {
 						return name + settings.mod + key + settings.modValue + value;
