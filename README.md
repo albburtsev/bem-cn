@@ -167,7 +167,7 @@ Use less specific propTypes rules:
 ```js
 let CustomComponent = React.createClass({
     propTypes: {
-        className: React.PropTypes.oneOf([
+        className: React.PropTypes.oneOfType([
             React.PropTypes.string,
             React.PropTypes.func
         ])
