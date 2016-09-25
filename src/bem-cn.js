@@ -91,13 +91,6 @@ function toString(settings, context) {
 		);
 	}
 
-	// Add mixes
-	if (mixes) {
-		classes = classes.concat(
-			normilizeMixes(mixes)
-		);
-	}
-
 	// Add states
 	if (states) {
 		Object.keys(states).forEach((prefix) => {
@@ -114,6 +107,14 @@ function toString(settings, context) {
 	// Add namespace
 	if (settings.ns) {
 		classes = classes.map((className) => settings.ns + className);
+	}
+
+	// Add mixes
+	// Don't do it before adding namespace! @see https://github.com/albburtsev/bem-cn/issues/32
+	if (mixes) {
+		classes = classes.concat(
+			normilizeMixes(mixes)
+		);
 	}
 
 	// Resolve class name from classMap

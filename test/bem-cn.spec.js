@@ -292,6 +292,9 @@ describe('Method setup()', () => {
 		should(
 			b('element', {mod: 'value'}).toString()
 		).equal('ns-block~~element ns-block~~element--mod-value');
+		should(
+			b('element').mix('another').toString()
+		).equal('ns-block~~element another');
 	});
 });
 
