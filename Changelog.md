@@ -1,3 +1,7 @@
+### 2016-09-25 v2.1.3
+
+ * Bugfix: buggy mix with namespace [#32](https://github.com/albburtsev/bem-cn/issues/32)
+
 ### 2016-06-22 v2.1.2
 
  * Added `.babelrc` to `.npmignore`
