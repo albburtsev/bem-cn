@@ -340,8 +340,14 @@ describe('Call without arguments', () => {
 			b()
 		).equal('block');
 		should(
+			typeof b()
+		).equal('string');
+		should(
 			b('icon')()
 		).equal('block__icon');
+		should(
+			typeof b('icon')()
+		).equal('string');
 		should(
 			b('icon', {mod: 'value'})()
 		).equal('block__icon block__icon_mod_value');
