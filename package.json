@@ -5,10 +5,11 @@
   "main": "dist/bem-cn.js",
   "module": "src/bem-cn.js",
   "scripts": {
+    "clean": "rm -rf dist/",
     "test": "mocha test",
     "lint": "eslint src/ test/ --ext .js",
     "build": "npm run build:umd && npm run build:umd:min",
-    "build:umd": "webpack src/bem-cn.js dist/bem-cn.js --config webpack.config.js",
+    "build:umd": "webpack --config webpack.config.js",
     "build:umd:min": "NODE_ENV=production webpack src/bem-cn.js dist/bem-cn.min.js --config webpack.config.js",
     "prepublish": "npm run lint && npm run build",
     "coverage": "istanbul cover _mocha --report html -- -R spec",
@@ -37,6 +38,7 @@
   },
   "homepage": "https://github.com/albburtsev/bem-cn",
   "devDependencies": {
+    "awesome-typescript-loader": "^3.4.0",
     "babel-core": "^6.8.0",
     "babel-eslint": "^6.0.4",
     "babel-loader": "^6.2.4",
@@ -52,6 +54,7 @@
     "mocha": "^2.4.5",
     "mocha-lcov-reporter": "0.0.2",
     "should": "^5.2.0",
+    "typescript": "^2.6.2",
     "webpack": "^1.13.0"
   }
 }

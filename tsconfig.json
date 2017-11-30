@@ -1,0 +1,18 @@
+{
+	"compilerOptions": {
+		"target": "es6",
+		"noEmit": true,
+		"moduleResolution": "node",
+		"noImplicitAny": true,
+		"noImplicitThis": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"strictNullChecks": true,
+		"pretty": true,
+		"baseUrl": "."
+	},
+	"include": ["src/**/*"],
+	"exclude": ["node_modules"]
+}
