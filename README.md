@@ -1,3 +1,15 @@
+# ~~~~~~~~ WARNING ~~~~~~~~~~~~
+
+**Current version of `bem-cn` is incompatible with `React 16+` because of React ignored `fn.toString()`+**
+
+**Please do not use version 2.x or lower.**
+
+**New API and required codemods coming soon.**
+
+[More](https://github.com/facebook/react/issues/10756) [details](https://github.com/facebook/react/issues/10857) about the problem.
+
+# ~~~~~~~~ WARNING ~~~~~~~~~~~~
+
 # BEM class names generator
 [![Build Status](https://secure.travis-ci.org/albburtsev/bem-cn.png?branch=master)](https://travis-ci.org/albburtsev/bem-cn)
 [![Coverage Status](https://coveralls.io/repos/albburtsev/bem-cn/badge.svg?branch=master)](https://coveralls.io/r/albburtsev/bem-cn?branch=master)
