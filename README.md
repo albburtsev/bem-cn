@@ -1,15 +1,3 @@
-# ~~~~~~~~ WARNING ~~~~~~~~~~~~
-
-**Current version of `bem-cn` is incompatible with `React 16+` because of React ignored `fn.toString()`+**
-
-**Please do not use version 2.x or lower.**
-
-**New API and required codemods coming soon.**
-
-[More](https://github.com/facebook/react/issues/10756) [details](https://github.com/facebook/react/issues/10857) about the problem.
-
-# ~~~~~~~~ WARNING ~~~~~~~~~~~~
-
 # BEM class names generator
 [![Build Status](https://secure.travis-ci.org/albburtsev/bem-cn.png?branch=master)](https://travis-ci.org/albburtsev/bem-cn)
 [![Coverage Status](https://coveralls.io/repos/albburtsev/bem-cn/badge.svg?branch=master)](https://coveralls.io/r/albburtsev/bem-cn?branch=master)
@@ -58,10 +46,9 @@ import block from 'bem-cn';
 ## Cheat sheet
 
 ```js
-var b = block('button');
+const b = block('button');
 
 // Block
-b; // 'button'
 b(); // 'button'
 
 // Element
@@ -73,7 +60,6 @@ b({onlykey: true});  // 'button button_onlykey'
 b({without: false});  // 'button'
 
 b('icon', {name: 'check'}); // 'button__icon button__icon_name_check'
-b('icon')({name: 'check'}); // 'button__icon button__icon_name_check'
 
 // Mix another classes
 b('icon').mix('another'); // 'button__icon another'
@@ -97,7 +83,7 @@ block.setup({
     modValue: '-'
 });
 
-var b = block('block');
+const b = block('block');
 
 b('element'); // 'block~~element'
 b({mod: 'value'}); // 'block block--mod-value'
@@ -107,7 +93,7 @@ b({mod: 'value'}); // 'block block--mod-value'
 // Setup namespace
 block.setup({ns: 'ns-'});
 
-var b = block('block');
+const b = block('block');
 
 b(); // 'ns-block'
 b('element'); // 'ns-block__element'
@@ -128,7 +114,7 @@ let Popup = React.createClass({
         let {skin, children} = this.props;
 
         return (
-            <div className={b}>
+            <div className={b()}>
             	<span className={b('icon')} />
             	<div className={b('content', {skin})}>
             		{children}
@@ -154,17 +140,9 @@ ReactDOM.render(<Popup skin="bright">Hello!</Popup>, target);
 
 ### PropTypes warnings
 
-`bem-cn` has specific chainable API. As a result, each call returns function for a further call. But most components are expecting property `className` as a string and using `propTypes` object for check this. In this case, you will see a warning. There are the couple of ways to avoid these warnings below.
+`bem-cn` has specific chainable API. As a result, each call returns object with `toString` method. But most components expect prop `className` as a string and using `propTypes` object for check this. In this case, you will see a warning. There are the couple of ways to avoid these warnings below.
 
 #### #1
-
-Use final call without arguments to get a string
-
-```jsx
-<CustomComponent className={b('icon')()} />
-```
-
-#### #2
 
 Use explicit call of method `toString()`:
 
@@ -172,17 +150,21 @@ Use explicit call of method `toString()`:
 <CustomComponent className={b('icon').toString()} />
 ```
 
-#### #3
+#### #2
 
 Use less specific propTypes rules:
 
 ```js
+const ClassNamePropType = PropTypes.oneOf([
+    PropTypes.string,
+    PropTypes.shape({
+        toString: PropTypes.func
+    })
+])
+
 let CustomComponent = React.createClass({
     propTypes: {
-        className: React.PropTypes.oneOf([
-            React.PropTypes.string,
-            React.PropTypes.func
-        ])
+        className: ClassNamePropType
     },
     // ...
 });
