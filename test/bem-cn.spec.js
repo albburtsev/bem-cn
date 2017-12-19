@@ -406,3 +406,51 @@ describe('Block with class mapping', () => {
 		should(textMod.toString()).equal([classMap.button__text, classMap.button__text_inlined].join(' '));
 	});
 });
+
+describe('Block with suit pattern', () => {
+	before(
+		() => block.setup({pattern: 'suit'})
+	);
+
+	after(
+		() => block.setup({pattern: 'bem'})
+	);
+
+	it('should create modifier without value', () => {
+		let b = block('Parent');
+
+		should(
+			b({value: true}).toString()
+		).equal('Parent Parent--value');
+	});
+
+	it('should return block with modifier', () => {
+		let b = block('Parent');
+
+		should(
+			b({color: 'dark'}).toString()
+		).equal('Parent Parent--dark');
+		should(
+			b({color: 'dark', size: 'large'}).toString()
+		).equal('Parent Parent--dark Parent--large');
+	});
+
+	it('should return element', () => {
+		let b = block('Parent');
+
+		should(
+			b('child').toString()
+		).equal('Parent-child');
+	});
+
+	it('should return element modifier', () => {
+		let b = block('Parent');
+
+		should(
+			b('child', {color: 'dark'}).toString()
+		).equal('Parent-child Parent-child--dark');
+		should(
+			b('child', {color: 'dark', size: 'large'}).toString()
+		).equal('Parent-child Parent-child--dark Parent-child--large');
+	});
+});

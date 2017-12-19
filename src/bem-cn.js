@@ -30,15 +30,25 @@ import {ERROR_BLOCK_NAME_TYPE, ERROR_BLOCK_NAME_EMPTY} from './constants';
 const IS_PREFIX = 'is-';
 const HAS_PREFIX = 'has-';
 
-let defaultSettings = {
-		ns: '',
-		el: '__',
-		mod: '_',
-		modValue: '_',
-		classMap: null
+let defaultPattern = 'bem',
+	patternSettings = {
+		bem: {
+			ns: '',
+			el: '__',
+			mod: '_',
+			modValue: '_',
+			classMap: null
+		},
+		suit: {
+			ns: '',
+			el: '-',
+			mod: '--',
+			classMap: null
+		}
 	},
+	defaultSettings = patternSettings[defaultPattern],
 	// Settings object is global on module level
-	settings = assign({}, defaultSettings);
+	settings = assign({pattern: defaultPattern}, defaultSettings);
 
 /**
  * Returns given mixes as list of strings
@@ -84,6 +94,8 @@ function toString(settings, context) {
 					if (value === true) {
 						return name + settings.mod + key;
 					// Modifier with name and value
+					} else if (settings.pattern === 'suit') {
+						return name + settings.mod + value;
 					} else {
 						return name + settings.mod + key + settings.modValue + value;
 					}
@@ -241,7 +253,8 @@ function block(name) {
  * @param  {Object} custom New custom settings
  */
 block.setup = (custom = {}) => {
-	assign(settings, custom);
+	let pattern = custom.pattern || defaultPattern;
+	assign(settings, {pattern}, patternSettings[pattern], custom);
 };
 
 /**
