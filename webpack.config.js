@@ -1,8 +1,10 @@
 'use strict';
 
 var _ = require('lodash'),
+    path = require('path'),
     webpack = require('webpack'),
     project = require('./package.json'),
+    mode = process.env.NODE_ENV || 'development',
     banner = _.template(
         '<%= name %> v<%= version %>\n' +
         '<%= description %>\n' +
@@ -10,40 +12,34 @@ var _ = require('lodash'),
     )(project);
 
 var config = {
+    mode,
+    entry: './src/index.ts',
     module: {
-        preLoaders: [
+        rules: [
             {
-                test: /\.js$/,
-                loader: 'eslint'
-            }
-        ],
-        loaders: [
-            {
-                test: /\.js$/,
-                loader: 'babel',
+                test: /\.ts?$/,
+                use: 'ts-loader',
                 exclude: /node_modules/
             }
         ]
     },
-    output: {
-        library: 'block',
-        libraryTarget: 'umd'
-    },
     resolve: {
-        extensions: ['', '.js']
+        extensions: ['.ts']
     },
-    plugins: [
-        new webpack.optimize.OccurenceOrderPlugin(),
-        new webpack.BannerPlugin(banner)
-    ]
+    output: {
+        library: 'bem-cn',
+        libraryTarget: 'umd',
+        filename: 'index.js',
+        path: path.resolve(__dirname, 'dist')
+    }
 };
 
 if (process.env.NODE_ENV === 'production') {
-    config.plugins.push(new webpack.optimize.UglifyJsPlugin({
-        compressor: {
-            warnings: false
-        }
-    }));
+    config.plugins = [
+        new webpack.BannerPlugin({
+            banner
+        })
+    ];
 }
 
 module.exports = config;
