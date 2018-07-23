@@ -1,9 +1,9 @@
 export interface Fake {
-    a: string
-    b: string
+	a: string
+	b: string
 }
 
 export class Fake implements Fake {
-    a = 'a'
-    b = 'b'
+	a = 'a'
+	b = 'b'
 }

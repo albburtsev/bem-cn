@@ -1,5 +1,5 @@
 # BEM class names generator
-[![Build Status](https://secure.travis-ci.org/albburtsev/bem-cn.png?branch=master)](https://travis-ci.org/albburtsev/bem-cn)
+[![Build Status](https://secure.travis-ci.org/albburtsev/bem-cn.png?branch=master)](https://travis-ci.org/albburtsev/bem-cn) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 Friendly [BEM](https://en.bem.info/) class names generator. Great for [React](http://facebook.github.io/react/).
 
