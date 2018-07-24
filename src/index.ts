@@ -118,25 +118,17 @@ const toString = (settings: BemSettings, context: BemContext) => {
 	// Add list of modifiers
 	if (mods) {
 		classes = classes.concat(
-			Object.keys(mods)
-				.filter(key => mods[key] && key.indexOf('@mix') === -1)
-				.map(key => {
-					const value = mods[key]
+			Object.keys(mods).map(key => {
+				const value = mods[key]
 
-					// Modifier with only name
-					if (value === true) {
-						return name + settings.mod + key
-						// Modifier with name and value
-					} else {
-						return (
-							name +
-							settings.mod +
-							key +
-							settings.modValue +
-							value
-						)
-					}
-				})
+				// Modifier with only name
+				if (value === true) {
+					return name + settings.mod + key
+					// Modifier with name and value
+				} else {
+					return name + settings.mod + key + settings.modValue + value
+				}
+			})
 		)
 	}
 
@@ -159,11 +151,7 @@ const toString = (settings: BemSettings, context: BemContext) => {
 	}
 
 	// Add special theme modifiers
-	classes = classes.concat(
-		Object.keys(mods)
-			.filter(key => key.indexOf('@mix') !== -1)
-			.map(key => mods[key])
-	)
+	classes = classes.concat(Object.keys(mods).map(key => mods[key]))
 
 	// Add mixes (strongly after adding namespaces)
 	if (mixes) {
