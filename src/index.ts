@@ -17,6 +17,8 @@ export interface BemMods {
 export type BemMix = BemItem | string | string[]
 
 export type BemItem = {
+	is(state: BemStates): BemItem & string
+	has(state: BemStates): BemItem & string
 	state(state: BemStates): BemItem & string
 	mix(mix: BemMix | null | undefined): BemItem & string
 	toString(): string
@@ -36,9 +38,9 @@ interface BemBlock {
 	): BemItem
 }
 
-export interface BemStates {
-	[stateKey: string]: boolean
-}
+export type BemStatePrefix = 'is-' | 'has-'
+
+export type BemStates = Record<BemStatePrefix, Record<string, boolean>>
 
 interface BemContext {
 	name: string
@@ -58,7 +60,8 @@ export interface BemCn {
 	(blockName: string): Block
 }
 
-const is = 'is-'
+const isPrefix = 'is-' as 'is-'
+const hasPrefix = 'has-' as 'has-'
 const defaultSettings: BemSettings = {
 	ns: '',
 	el: '__',
@@ -96,11 +99,15 @@ const mix = (
 const state = (
 	settings: BemSettings,
 	context: BemContext,
-	states: BemStates
+	prefix: BemStatePrefix,
+	...states: BemStates[]
 ): BemItem => {
 	const copiedContext = assign({}, context)
+	const copiedState = assign({}, copiedContext.states || {})
 
-	copiedContext.states = assign({}, copiedContext.states, states)
+	copiedState[prefix] = assign({}, copiedState[prefix] || {}, ...states)
+	copiedContext.states = copiedState
+
 	return bemItem(copiedContext, settings)
 }
 
@@ -135,11 +142,15 @@ const toString = (settings: BemSettings, context: BemContext) => {
 
 	// Add states
 	if (states) {
-		classes = classes.concat(
-			Object.keys(states)
-				.filter(key => states[key])
-				.map(key => is + key)
-		)
+		Object.keys(states).forEach(prefix => {
+			const statesByPrefix = states[prefix]
+
+			classes = classes.concat(
+				Object.keys(statesByPrefix)
+					.filter(key => statesByPrefix[key])
+					.map(key => prefix + key)
+			)
+		})
 	}
 
 	// Add namespace
@@ -165,7 +176,9 @@ const toString = (settings: BemSettings, context: BemContext) => {
 const bemItem = (context: BemContext, settings: BemSettings): BemItem => {
 	return {
 		mix: mix.bind(null, settings, context),
-		state: state.bind(null, settings, context),
+		is: state.bind(null, settings, context, isPrefix),
+		has: state.bind(null, settings, context, hasPrefix),
+		state: state.bind(null, settings, context, isPrefix),
 		toString: toString.bind(null, settings, context)
 	}
 }
@@ -207,7 +220,9 @@ export const setup = (settings: BemSettings = {}): BemCn => {
 
 		const boundBlock = bemBlock.bind(null, copiedSettings, context)
 		boundBlock.mix = mix.bind(null, copiedSettings, context)
-		boundBlock.state = state.bind(null, copiedSettings, context)
+		boundBlock.is = state.bind(null, copiedSettings, context, isPrefix)
+		boundBlock.has = state.bind(null, copiedSettings, context, hasPrefix)
+		boundBlock.state = state.bind(null, copiedSettings, context, isPrefix)
 		boundBlock.toString = toString.bind(null, copiedSettings, context)
 
 		return boundBlock

@@ -27,8 +27,8 @@ describe('Block output', () => {
 	it('should have all necessary methods', () => {
 		const b = block('button')
 
-		// should(b.is).be.an.instanceOf(Function)
-		// should(b.has).be.an.instanceOf(Function)
+		should(b.is).be.an.instanceOf(Function)
+		should(b.has).be.an.instanceOf(Function)
 		should(b.mix).be.an.instanceOf(Function)
 		should(b.state).be.an.instanceOf(Function)
 		// should(b.split).be.an.instanceOf(Function)
