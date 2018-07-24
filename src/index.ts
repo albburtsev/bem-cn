@@ -20,6 +20,7 @@ export type BemItem = {
 	is(state: BemStates): BemItem & string
 	has(state: BemStates): BemItem & string
 	state(state: BemStates): BemItem & string
+	split(separator?: string, limit?: number): BemItem & string
 	mix(mix: BemMix | null | undefined): BemItem & string
 	toString(): string
 }
@@ -111,6 +112,14 @@ const state = (
 	return bemItem(copiedContext, settings)
 }
 
+const split = (
+	settings: BemSettings,
+	context: BemContext,
+	separator?: string,
+	limit?: number
+): string[] =>
+	String.prototype.split.call(toString(settings, context), separator, limit)
+
 const toString = (settings: BemSettings, context: BemContext) => {
 	const { name, mods, mixes, states } = context
 	let classes: string[] = [name]
@@ -164,6 +173,7 @@ const toString = (settings: BemSettings, context: BemContext) => {
 const bemItem = (context: BemContext, settings: BemSettings): BemItem => {
 	return {
 		mix: mix.bind(null, settings, context),
+		split: split.bind(null, settings, context),
 		is: state.bind(null, settings, context, isPrefix),
 		has: state.bind(null, settings, context, hasPrefix),
 		state: state.bind(null, settings, context, isPrefix),
@@ -208,6 +218,7 @@ export const setup = (settings: BemSettings = {}): BemCn => {
 
 		const boundBlock = bemBlock.bind(null, copiedSettings, context)
 		boundBlock.mix = mix.bind(null, copiedSettings, context)
+		boundBlock.split = split.bind(null, settings, context)
 		boundBlock.is = state.bind(null, copiedSettings, context, isPrefix)
 		boundBlock.has = state.bind(null, copiedSettings, context, hasPrefix)
 		boundBlock.state = state.bind(null, copiedSettings, context, isPrefix)
