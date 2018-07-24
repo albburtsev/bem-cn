@@ -24,7 +24,7 @@ const block = (name) => {
 	return selector(defaultSettings, {name});
 };
  */
-import {trim, assign} from './helpers';
+import {trim, assign} from './helpers-old';
 import {ERROR_BLOCK_NAME_TYPE, ERROR_BLOCK_NAME_EMPTY} from './constants';
 
 const IS_PREFIX = 'is-';
