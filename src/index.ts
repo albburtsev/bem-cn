@@ -5,23 +5,23 @@ export const ERROR_BLOCK_NAME_EMPTY = 'Block name should be non-empty'
 
 export interface BemSettings {
 	ns?: string
-	el?: string
-	mod?: string
-	modValue?: string
+	el: string
+	mod: string
+	modValue: string
 }
 
 export interface BemMods {
 	[mod: string]: string | boolean | any
 }
 
-export type BemMix = BemItem | string | string[]
+export type BemMix = string | string[] | BemBlock | { toString: () => string }
 
 export type BemItem = {
 	is(state: BemStates): BemItem & string
 	has(state: BemStates): BemItem & string
 	state(state: BemStates): BemItem & string
 	split(separator?: string, limit?: number): BemItem & string
-	mix(mix: BemMix | null | undefined): BemItem & string
+	mix(...mix: BemMix[]): BemItem & string
 	toString(): string
 }
 
@@ -29,13 +29,7 @@ interface BemBlock {
 	(
 		settings: BemSettings,
 		context: BemContext,
-		elemName: string,
-		...modsArray: BemMods[]
-	): BemItem
-	(
-		settings: BemSettings,
-		context: BemContext,
-		...modsArray: BemMods[]
+		...elemNameOrMods: (string | BemMods)[]
 	): BemItem
 }
 
@@ -51,8 +45,7 @@ interface BemContext {
 }
 
 export interface IBlock extends BemItem {
-	(elemName: string, ...mods: BemMods[]): BemItem & string
-	(...mods: BemMods[]): BemItem & string
+	(...elemNameOrMods: (string | BemMods)[]): BemItem & string
 }
 
 export type Block = IBlock & string
@@ -70,12 +63,20 @@ const defaultSettings: BemSettings = {
 	modValue: '_'
 }
 
+const isString = (nameOrMods: string | BemMods): nameOrMods is string =>
+	typeof nameOrMods === 'string'
+
+const isBemMods = (nameOrMods: string | BemMods): nameOrMods is BemMods =>
+	typeof nameOrMods !== 'string'
+
 const normilizeMixes = (mixes: BemMix[] = []): string[] => {
 	return mixes
 		.map(mix => {
 			if (Array.isArray(mix)) {
 				return mix.join(' ')
 			} else if (typeof mix === 'object' && mix !== null) {
+				return mix.toString()
+			} else if (typeof mix === 'function') {
 				return mix.toString()
 			} else if (typeof mix === 'string') {
 				return mix
@@ -89,7 +90,7 @@ const normilizeMixes = (mixes: BemMix[] = []): string[] => {
 const mix = (
 	settings: BemSettings,
 	context: BemContext,
-	mixes: BemMix
+	...mixes: BemMix[]
 ): BemItem => {
 	const copiedContext = assign({}, context)
 
@@ -127,17 +128,25 @@ const toString = (settings: BemSettings, context: BemContext) => {
 	// Add list of modifiers
 	if (mods) {
 		classes = classes.concat(
-			Object.keys(mods).map(key => {
-				const value = mods[key]
+			Object.keys(mods)
+				.filter(key => mods[key]) // Don't add modifiers with falsy values
+				.map(key => {
+					const value = mods[key]
 
-				// Modifier with only name
-				if (value === true) {
-					return name + settings.mod + key
-					// Modifier with name and value
-				} else {
-					return name + settings.mod + key + settings.modValue + value
-				}
-			})
+					// Modifier with only name
+					if (value === true) {
+						return name + settings.mod + key
+						// Modifier with name and value
+					} else {
+						return (
+							name +
+							settings.mod +
+							key +
+							settings.modValue +
+							value
+						)
+					}
+				})
 		)
 	}
 
@@ -158,9 +167,6 @@ const toString = (settings: BemSettings, context: BemContext) => {
 	if (settings.ns) {
 		classes = classes.map(className => settings.ns + className)
 	}
-
-	// Add special theme modifiers
-	classes = classes.concat(Object.keys(mods).map(key => mods[key]))
 
 	// Add mixes (strongly after adding namespaces)
 	if (mixes) {
@@ -184,62 +190,60 @@ const bemItem = (context: BemContext, settings: BemSettings): BemItem => {
 const bemBlock: BemBlock = (
 	settings: BemSettings,
 	context: BemContext,
-	nameOrMod?: string | BemMods,
-	...args: BemMods[]
+	...args: (string | BemMods)[]
 ) => {
 	const copiedContext = assign({}, context)
-	const elemName = typeof nameOrMod === 'string' ? nameOrMod : ''
-	const modsArray =
-		typeof nameOrMod === 'string' ? args : [nameOrMod, ...args]
 
-	if (elemName) {
-		copiedContext.name = copiedContext.name + settings.el + elemName
+	const name = args
+		.filter(isString)
+		.reduce((acc, name) => acc + settings.el + name, '')
+
+	if (name) {
+		copiedContext.name = copiedContext.name + name
 	}
 
-	modsArray.forEach(mods => {
-		copiedContext.mods = assign({}, copiedContext.mods, mods)
-	})
+	const mods = args
+		.filter(isBemMods)
+		.reduce((acc, mods) => assign(acc, mods), {} as BemMods)
+
+	copiedContext.mods = assign({}, copiedContext.mods, mods)
 
 	return bemItem(copiedContext, settings)
 }
 
-export const setup = (settings: BemSettings = {}): BemCn => {
-	const copiedSettings = assign({}, defaultSettings, settings)
-	const blockFactory = (_context: Partial<BemContext> = {}) => {
-		const context: BemContext = assign(
-			{
-				name: '',
-				mods: {},
-				mixes: [],
-				states: {}
-			},
-			_context
-		)
-
-		const boundBlock = bemBlock.bind(null, copiedSettings, context)
-		boundBlock.mix = mix.bind(null, copiedSettings, context)
-		boundBlock.split = split.bind(null, settings, context)
-		boundBlock.is = state.bind(null, copiedSettings, context, isPrefix)
-		boundBlock.has = state.bind(null, copiedSettings, context, hasPrefix)
-		boundBlock.state = state.bind(null, copiedSettings, context, isPrefix)
-		boundBlock.toString = toString.bind(null, copiedSettings, context)
-
-		return boundBlock
+const factory = (name: string, settings: BemSettings) => {
+	const context: BemContext = {
+		name,
+		mods: {},
+		mixes: [],
+		states: { 'is-': {}, 'has-': {} }
 	}
 
-	return (blockName: string) => {
-		if (typeof blockName !== 'string') {
-			throw new Error(ERROR_BLOCK_NAME_TYPE)
-		}
+	const boundBlock = bemBlock.bind(null, settings, context) as Block
+	boundBlock.mix = mix.bind(null, settings, context)
+	boundBlock.split = split.bind(null, settings, context)
+	boundBlock.is = state.bind(null, settings, context, isPrefix)
+	boundBlock.has = state.bind(null, settings, context, hasPrefix)
+	boundBlock.state = state.bind(null, settings, context, isPrefix)
+	boundBlock.toString = toString.bind(null, settings, context)
 
-		const name = blockName.trim()
+	return boundBlock
+}
 
-		if (!name) {
-			throw new Error(ERROR_BLOCK_NAME_EMPTY)
-		}
-
-		return blockFactory({ name })
+export const setup = (settings: Partial<BemSettings> = {}): BemCn => (
+	blockName: string
+) => {
+	if (typeof blockName !== 'string') {
+		throw new Error(ERROR_BLOCK_NAME_TYPE)
 	}
+
+	const name = blockName.trim()
+
+	if (!name) {
+		throw new Error(ERROR_BLOCK_NAME_EMPTY)
+	}
+
+	return factory(name, assign({}, defaultSettings, settings))
 }
 
 export const block = setup()
