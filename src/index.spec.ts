@@ -162,3 +162,92 @@ describe('Selector function', () => {
 		)
 	})
 })
+
+describe('Unexpected arguments', () => {
+	it('should be silent when passed unexpected value', () => {
+		const b = block('block')
+
+		should(b(null as any).toString()).equal('block')
+		should(b.mix(null as any).toString()).equal('block')
+		should(
+			b(null as any)
+				.mix(null as any)
+				.toString()
+		).equal('block')
+	})
+})
+
+describe('Method state()', () => {
+	it('should set states', () => {
+		const b = block('block')
+
+		should(b.state({ hidden: true }).toString()).equal('block is-hidden')
+		should(b.state({ hidden: false }).toString()).equal('block')
+		should(
+			b.state({ hidden: 'non boolean value' } as any).toString()
+		).equal('block is-hidden')
+		should(b.state({ hidden: true, error: true }).toString()).equal(
+			'block is-hidden is-error'
+		)
+		should(
+			b('element')
+				.state({ hidden: true })
+				.toString()
+		).equal('block__element is-hidden')
+		should(
+			b({ mod: 'value' })
+				.state({ hidden: true })
+				.toString()
+		).equal('block block_mod_value is-hidden')
+	})
+})
+
+describe('Method is()', () => {
+	it('should set states with is- prefix', () => {
+		const b = block('block')
+
+		should(b.is({ hidden: true }).toString()).equal('block is-hidden')
+		should(b.is({ hidden: false }).toString()).equal('block')
+		should(b.is({ hidden: 'non boolean value' } as any).toString()).equal(
+			'block is-hidden'
+		)
+		should(b.is({ hidden: true, error: true }).toString()).equal(
+			'block is-hidden is-error'
+		)
+		should(
+			b('element')
+				.is({ hidden: true })
+				.toString()
+		).equal('block__element is-hidden')
+		should(
+			b({ mod: 'value' })
+				.is({ hidden: true })
+				.toString()
+		).equal('block block_mod_value is-hidden')
+	})
+})
+
+describe('Method has()', () => {
+	it('should set states with has- prefix', () => {
+		const b = block('block')
+
+		should(b.has({ child: true }).toString()).equal('block has-child')
+		should(b.has({ child: false }).toString()).equal('block')
+		should(b.has({ child: 'non boolean value' } as any).toString()).equal(
+			'block has-child'
+		)
+		should(b.has({ child: true, footer: true }).toString()).equal(
+			'block has-child has-footer'
+		)
+		should(
+			b('element')
+				.has({ child: true })
+				.toString()
+		).equal('block__element has-child')
+		should(
+			b({ mod: 'value' })
+				.has({ child: true })
+				.toString()
+		).equal('block block_mod_value has-child')
+	})
+})

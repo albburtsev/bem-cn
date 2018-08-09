@@ -17,9 +17,9 @@ export interface BemMods {
 export type BemMix = string | string[] | BemBlock | { toString: () => string }
 
 export type BemItem = {
-	is(state: BemStates): BemItem & string
-	has(state: BemStates): BemItem & string
-	state(state: BemStates): BemItem & string
+	is(state: BemState): BemItem & string
+	has(state: BemState): BemItem & string
+	state(state: BemState): BemItem & string
 	split(separator?: string, limit?: number): BemItem & string
 	mix(...mix: BemMix[]): BemItem & string
 	toString(): string
@@ -34,8 +34,8 @@ interface BemBlock {
 }
 
 export type BemStatePrefix = 'is-' | 'has-'
-
-export type BemStates = Record<BemStatePrefix, Record<string, boolean>>
+export type BemState = Record<string, boolean>
+export type BemStates = Record<BemStatePrefix, BemState>
 
 interface BemContext {
 	name: string
