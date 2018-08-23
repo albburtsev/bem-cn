@@ -8,6 +8,7 @@ export interface BemSettings {
 	el: string
 	mod: string
 	modValue: string
+	classMap?: Record<string, string>
 }
 
 export interface BemMods {
@@ -171,6 +172,12 @@ const toString = (settings: BemSettings, context: BemContext) => {
 	// Add mixes (strongly after adding namespaces)
 	if (mixes) {
 		classes = classes.concat(normilizeMixes(mixes))
+	}
+
+	// Resolve class name from classMap
+	if (settings.classMap) {
+		const { classMap } = settings
+		classes = classes.map(className => classMap[className] || className)
 	}
 
 	return classes.join(' ')

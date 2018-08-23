@@ -300,3 +300,50 @@ describe('Call block without arguments', () => {
 		should(typeof b()).equal('string')
 	})
 })
+
+describe('Block with class mapping', () => {
+	const classMap = {
+		button: 'index__button___F5evr',
+		button_mod: 'index__button_mod___3tGjQ',
+		button__text: 'index__button__text___3ggzc',
+		button__text_inlined: 'index__text_inlined___3ggzc'
+	}
+	const block = setup({ classMap })
+
+	it('should return class for block name', () => {
+		const b = block('button')
+
+		should(b().toString()).equal(classMap.button)
+		should(b.toString()).equal(classMap.button)
+	})
+
+	it('should properly set class for modifier', () => {
+		const button = block('button')({ mod: true })
+
+		should(button.toString()).equal(
+			[classMap.button, classMap.button_mod].join(' ')
+		)
+		should(button.toString()).equal(
+			[classMap.button, classMap.button_mod].join(' ')
+		)
+	})
+
+	it('should properly set class element', () => {
+		const button = block('button')
+		const text = button('text')
+
+		should(text.toString()).equal(classMap.button__text)
+	})
+
+	it('should properly set class element with modifier', () => {
+		const button = block('button')
+		const textMod = button('text', { inlined: true })
+
+		should(textMod.toString()).equal(
+			[classMap.button__text, classMap.button__text_inlined].join(' ')
+		)
+		should(textMod.toString()).equal(
+			[classMap.button__text, classMap.button__text_inlined].join(' ')
+		)
+	})
+})
