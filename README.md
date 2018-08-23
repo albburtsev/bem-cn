@@ -5,6 +5,10 @@ Friendly [BEM](https://en.bem.info/) class names generator. Great for [React](ht
 
 **Bem-cn** (aka BEM Class Name) is extra small (minified+gzipped less than 1.5Kb) and extremely simple client-side library and Node.js module.
 
+**Important!** Only `bem-cn@3.x+` compatible with `react@16+`.
+Please do not use version 2.x or lower.
+[More](https://github.com/facebook/react/issues/10857) [details](https://github.com/facebook/react/issues/10756) about the problem.
+
 Inspired by [b_](https://github.com/azproduction/b_).
 
 ## Justification
@@ -14,7 +18,7 @@ I spent a lot of time finding [BEM](https://en.bem.info/) class name generator, 
  * Simple usage with React
  * Support modifiers without value
  * Mix multiple blocks
- * Friendly chainable API
+ * Friendly API
 
 When my efforts had led to naught I've created this micro library.
 
@@ -24,81 +28,76 @@ With Node.js:
 
 ```bash
 npm i --save bem-cn
-```
-
-Or use [Bower](http://bower.io/) for install:
-
-```bash
-bower install --save bem-cn
+yarn add bem-cn
 ```
 
 Works with [webpack](http://webpack.github.io/) and [browserify](http://browserify.org/):
 
 ```js
 // CommonJS
-var block = require('bem-cn');
+var { block } = require('bem-cn');
 
-// or ES6 modules
-import block from 'bem-cn';
+// ES6
+import { block } from 'bem-cn';
 ```
 
-## Cheat sheet
+## API
 
 ```js
-var b = block('button');
+const b = block('button');
 
 // Block
-b; // 'button'
 b(); // 'button'
 
 // Element
 b('icon'); // 'button__icon'
 
 // Modifier
-b({type: 'text'});  // 'button button_type_text'
-b({onlykey: true});  // 'button button_onlykey'
-b({without: false});  // 'button'
+b({ type: 'text' });  // 'button button_type_text'
+b({ onlykey: true });  // 'button button_onlykey'
+b({ without: false });  // 'button'
 
-b('icon', {name: 'check'}); // 'button__icon button__icon_name_check'
-b('icon')({name: 'check'}); // 'button__icon button__icon_name_check'
+b('icon', { name: 'check' }); // 'button__icon button__icon_name_check'
 
 // Mix another classes
 b('icon').mix('another'); // 'button__icon another'
 b('icon').mix(['one', 'two']); // 'button__icon one two'
 
 // States like in SMACSS: https://smacss.com/book/type-state
-b.state({hidden: true}); // 'button is-hidden'
-b.state({hidden: false}); // 'button'
-b.state({hidden: true, error: true}); // 'button is-hidden is-error'
+b.state({ hidden: true }); // 'button is-hidden'
+b.state({ hidden: false }); // 'button'
+b.state({ hidden: true, error: true }); // 'button is-hidden is-error'
 
 // More states!
-b.is({loading: true}); // 'button is-loading'
-b.has({content: true}); // 'button has-content'
+b.is({ loading: true }); // 'button is-loading'
+b.has({ content: true }); // 'button has-content'
 ```
 
 ```js
 // Setup custom delimiters
-block.setup({
+import { setup } from 'bem-cn';
+
+const block = setup({
     el: '~~',
     mod: '--',
     modValue: '-'
 });
 
-var b = block('block');
+const b = block('block');
 
 b('element'); // 'block~~element'
-b({mod: 'value'}); // 'block block--mod-value'
+b({ mod: 'value' }); // 'block block--mod-value'
 ```
 
 ```js
 // Setup namespace
-block.setup({ns: 'ns-'});
+const block = setup({ ns: 'ns-' });
 
-var b = block('block');
+const b = block('block');
 
 b(); // 'ns-block'
 b('element'); // 'ns-block__element'
-b({mod: 'value'}); // 'ns-block ns-block_mod_value'
+b({ mod: 'value' }); // 'ns-block ns-block_mod_value'
 ```
 
 ## Try it with React
@@ -108,16 +107,16 @@ import block from 'bem-cn';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-let b = block('popup');
+const b = block('popup');
 
-let Popup = React.createClass({
+const Popup = React.createClass({
     render() {
-        let {skin, children} = this.props;
+        const { skin, children } = this.props;
 
         return (
-            <div className={b}>
+            <div className={b()}>
             	<span className={b('icon')} />
-            	<div className={b('content', {skin})}>
+            	<div className={b('content', { skin })}>
             		{children}
             	</div>
             </div>
@@ -139,9 +138,13 @@ ReactDOM.render(<Popup skin="bright">Hello!</Popup>, target);
 
 ## Troubleshooting
 
+### Maigrate to version 3.x
+
+@todo
+
 ### PropTypes warnings
 
-`bem-cn` has specific chainable API. As a result, each call returns function for a further call. But most components are expecting property `className` as a string and using `propTypes` object for check this. In this case, you will see a warning. There are the couple of ways to avoid these warnings below.
+`bem-cn@2.x` or lower has specific chainable API. As a result, each call returns function for a further call. But most components are expecting property `className` as a string and using `propTypes` object for check this. In this case, you will see a warning. There are the couple of ways to avoid these warnings below.
 
 #### #1
 
