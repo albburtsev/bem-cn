@@ -251,3 +251,52 @@ describe('Method has()', () => {
 		).equal('block block_mod_value has-child')
 	})
 })
+
+describe('Method setup()', () => {
+	it('should set custom settings', () => {
+		const block = setup({
+			ns: 'ns-',
+			el: '~~',
+			mod: '--',
+			modValue: '-'
+		})
+		const b = block('block')
+
+		should(b('element').toString()).equal('ns-block~~element')
+		should(b({ mod: 'value' }).toString()).equal(
+			'ns-block ns-block--mod-value'
+		)
+		should(b({ mod: true }).toString()).equal('ns-block ns-block--mod')
+		should(b('element', { mod: 'value' }).toString()).equal(
+			'ns-block~~element ns-block~~element--mod-value'
+		)
+		should(
+			b('element')
+				.mix('another')
+				.toString()
+		).equal('ns-block~~element another')
+	})
+})
+
+describe('Method split()', () => {
+	it('should work as String.prototype.split', () => {
+		const b = block('block')
+
+		should(b.split()).eql(['block'])
+		should(b.split(' ')).eql(['block'])
+		should(b.split('')).eql(['b', 'l', 'o', 'c', 'k'])
+		should(b('element', { mod: 'value' }).split(' ')).eql([
+			'block__element',
+			'block__element_mod_value'
+		])
+	})
+})
+
+describe('Call block without arguments', () => {
+	it('should return the same as toString()', () => {
+		const b = block('block')
+
+		should(b()).equal('block')
+		should(typeof b()).equal('string')
+	})
+})

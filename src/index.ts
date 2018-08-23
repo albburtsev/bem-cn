@@ -30,7 +30,7 @@ interface BemBlock {
 		settings: BemSettings,
 		context: BemContext,
 		...elemNameOrMods: (string | BemMods)[]
-	): BemItem
+	): BemItem | string
 }
 
 export type BemStatePrefix = 'is-' | 'has-'
@@ -192,6 +192,11 @@ const bemBlock: BemBlock = (
 	context: BemContext,
 	...args: (string | BemMods)[]
 ) => {
+	// Is case of call without arguments return string representation
+	if (!args.length) {
+		return toString(settings, context)
+	}
+
 	const copiedContext = assign({}, context)
 
 	const name = args
