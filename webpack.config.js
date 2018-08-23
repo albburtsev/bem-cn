@@ -27,10 +27,10 @@ var config = {
         extensions: ['.ts']
     },
     output: {
-        library: 'bem-cn',
+        library: 'block',
         libraryTarget: 'umd',
         filename: 'index.js',
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, 'lib')
     }
 };
 

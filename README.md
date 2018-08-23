@@ -3,7 +3,7 @@
 
 Friendly [BEM](https://en.bem.info/) class names generator. Great for [React](http://facebook.github.io/react/).
 
-**Bem-cn** (aka BEM Class Name) is extra small (minified+gzipped less than 1.5Kb) and extremely simple client-side library and Node.js module.
+**Bem-cn** (aka BEM Class Name) is extra small (minified+gzipped less than 1.6Kb) and extremely simple client-side library and Node.js module.
 
 **Important!** Only `bem-cn@3.x+` compatible with `react@16+`.
 Please do not use version 2.x or lower.
