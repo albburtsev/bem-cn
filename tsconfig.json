@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "outDir": ".",
+        "declaration": true,
+        "noImplicitThis": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"strictNullChecks": true,
+		"pretty": true,
+        "module": "commonjs",
+        "target": "es5",
+        "allowJs": false
+    },
+    "include": ["src/**/*"],
+	"exclude": ["node_modules", "src/**/*.spec.ts"]
+}

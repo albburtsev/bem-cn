@@ -1,7 +1,7 @@
 /.npmignore
 /.gitignore
-/.babelrc
+/.prettierrc
 /.travis.yml
+/.vscode
 /webpack.config.js
 /test/
-/coverage/
