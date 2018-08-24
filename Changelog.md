@@ -1,3 +1,11 @@
+### 2018-08-24 v3.0.0
+
+ * Compatible with React 16+
+ * Source code re-written with TypeScript. Added built-in typings.
+ * **BREAKING CHANGE** Exported top-level method `setup`, that returns new block factory
+ * **BREAKING CHANGE** Removed method `reset`
+ * **BREAKING CHANGE** Call chains like `b('element')({ color: 'red' })` not supported
+
 ### 2016-09-25 v2.1.3
 
  * Bugfix: buggy mix with namespace [#32](https://github.com/albburtsev/bem-cn/issues/32)
