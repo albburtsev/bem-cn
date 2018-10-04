@@ -1,3 +1,7 @@
+### 2018-10-04 v3.0.1
+
+ * Fix error in bundle when node failed on `window` ref [#49](https://github.com/albburtsev/bem-cn/pull/49)
+
 ### 2018-08-24 v3.0.0
 
  * Compatible with React 16+
