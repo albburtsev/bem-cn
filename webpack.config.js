@@ -30,7 +30,10 @@ var config = {
         library: 'block',
         libraryTarget: 'umd',
         filename: 'index.js',
-        path: path.resolve(__dirname, 'lib')
+        path: path.resolve(__dirname, 'lib'),
+
+        // https://github.com/webpack/webpack/issues/6525
+        globalObject: 'this'
     }
 };
 
