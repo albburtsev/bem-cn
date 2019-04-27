@@ -34,6 +34,17 @@ describe('Block output', () => {
 		should(b.split).be.an.instanceOf(Function)
 		should(b.toString).be.an.instanceOf(Function)
 	})
+
+	it('should have all necessary methods', () => {
+		const b = block('button')
+
+		should(b().is).be.an.instanceOf(Function)
+		should(b().has).be.an.instanceOf(Function)
+		should(b().mix).be.an.instanceOf(Function)
+		should(b().state).be.an.instanceOf(Function)
+		should(b().split).be.an.instanceOf(Function)
+		should(b().toString).be.an.instanceOf(Function)
+	})
 })
 
 describe('Block name', () => {
