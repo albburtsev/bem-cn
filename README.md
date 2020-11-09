@@ -142,11 +142,25 @@ ReactDOM.render(<Popup skin="bright">Hello!</Popup>, target);
 
 @todo
 
-### PropTypes warnings
+###  className undefined / PropTypes warnings
 
-`bem-cn@2.x` or lower has specific chainable API. As a result, each call returns function for a further call. But most components are expecting property `className` as a string and using `propTypes` object for check this. In this case, you will see a warning. There are the couple of ways to avoid these warnings below.
+`bem-cn@2.x` or lower has specific chainable API. As a result, each call returns function for a further call.  This is problematic because [React does not call toString on className props that are of type funtion](https://github.com/facebook/react/issues/10857). The standard ReactDOM components are expecting property `className` to implement toString and not be a function.  This rightfully causes PropType errors, which indicate the need to invoke `toString` on the `b` function.
+
+[This example](https://codesandbox.io/s/react-classname-behavior-piywz?file=/src/App.js) illustrates the way `className` handles its prop.
+
+
+See the following examples for recommended ways of getting a string from a block function.
+
 
 #### #1
+
+Use string interpolation
+
+```jsx
+<CustomComponent className={`${b('icon')}`} />
+```
+
+#### #2
 
 Use final call without arguments to get a string
 
@@ -154,7 +168,7 @@ Use final call without arguments to get a string
 <CustomComponent className={b('icon')()} />
 ```
 
-#### #2
+#### #3
 
 Use explicit call of method `toString()`:
 
@@ -162,7 +176,7 @@ Use explicit call of method `toString()`:
 <CustomComponent className={b('icon').toString()} />
 ```
 
-#### #3
+#### #4
 
 Use less specific propTypes rules:
 
